@@ -1,0 +1,26 @@
+<dsx>
+	<globals front_face="CCW" depth_func="LEQUAL,enable" cull_face="back,enable" lighting="enable" shading="Gouraud" polygon_mode="fill"/>
+	<scene root="ss" axis_length="ff" />
+	 <views default="ss" >
+	 	<perspective id="ss" near= "ff" far="ff" angle="ff">
+	 		<from x="ff" y="ff" z="ff" />
+	 		<to x="ff" y="ff" z="ff" />
+	 	</perspective>
+	 </views>
+
+    <illumination doublesided="tt" local="tt" >
+    
+        <ambient r="ff" g="ff" b="ff" a="ff" />
+        <background r="ff" g="ff" b="ff" a="ff" />
+        
+    </illumination>
+    <lights>
+    	<omni id="ss" enabled="tt" >
+            <location x="ff" y="ff" z="ff" w="ff" />
+            <ambient r="ff" g="ff" b="ff" a="ff" />
+            <diffuse r="ff" g="ff" b="ff" a="ff" />
+            <specular r="ff" g="ff" b="ff" a="ff" />
+        </omni>
+    </lights>
+	</scene>
+</dsx>
