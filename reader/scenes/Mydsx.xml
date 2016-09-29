@@ -21,4 +21,36 @@
             <specular r="0.7" g="0.7" b="0.5" a="1" />
         </omni>
     </lights>
+    <textures>
+    	<texture>
+    	</texture>
+    
+    
+    </textures>
+    <materials>
+    	<material>
+    	</material>
+    </materials>
+    <transformations>
+    	<transformation>
+    
+    	</transformation>
+    
+    
+    </transformations>
+    <primitives>
+    	<primitive>
+    	</primitive>
+    
+    
+    </primitives>
+    <components>
+    	<component>
+    	</component>
+    </components>
+    
+    
+    
+    
+    
 </dsx>
