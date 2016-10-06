@@ -27,8 +27,13 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement; //DSX aqui
 	
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobalsExample(rootElement);
-
+	var error = this.parseGlobals(rootElement);
+	error = this.parseIllumination(rootElement);
+	/*error = this.parseLights(rootElement);
+	error = this.parseTextures(rootElement);
+	error = this.parseMaterials(rootElement);
+	error = this.parseLeaves(rootElement);
+	error = this.parseNodes(rootElement);*/ 
 	if (error != null) {
 		this.onXMLError(error);
 		return;
@@ -45,9 +50,9 @@ MySceneGraph.prototype.onXMLReady=function()
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
-MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
+MySceneGraph.prototype.parseGlobals= function(rootElement) {
 	
-	var elems =  rootElement.getElementsByTagName('globals');
+	var elems =  rootElement.getElementsByTagName('scene');
 	if (elems == null) {
 		return "globals element is missing.";
 	}
@@ -58,12 +63,14 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 
 	// various examples of different types of access
 	var globals = elems[0];
-	this.background = this.reader.getRGBA(globals, 'background');  //este ano tem q ler um dos parametros do RGB separados
-	this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill","line","point"]);
-	this.cullface = this.reader.getItem(globals, 'cullface', ["back","front","none", "frontandback"]);
-	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw","cw"]);
-
-	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
+	this.depth_func = this.reader.Item(globals, 'depth_func');  //este ano tem q ler um dos parametros do RGB separados
+	this.lighting = this.reader.getItem(globals, 'lighting', ["enable"]);
+	this.cullface = this.reader.getItem(globals, 'cull_face', ["back","enable"]);
+	this.front_face = this.reader.getItem(globals, 'front_face', ["CCW","CW"]);
+	this.shading=this.reader.getItem(globals,'shading');
+	this.polygon_mode=this.reader.getItem(globals,'polygon_mode',["fill"]);
+	this.axis_length=this.reader.getFloat(globals,'axis_length');
+	console.log("Globals read from file: {front_face=" + this.front_face + ", lighting=" + this.lighting + ", cullface=" + this.cullface + ", shading=" + this.shading + ",polygon mode=" + this.polygon_mode +",axis length="+this.axis_length + "}");
 
 	var tempList=rootElement.getElementsByTagName('list');
 
@@ -83,6 +90,9 @@ MySceneGraph.prototype.parseGlobalsExample= function(rootElement) {
 		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
 	};
 
+};
+MySceneGraph.prototype.parseIllumination= function(rootElement){
+	
 };
 	
 /*
