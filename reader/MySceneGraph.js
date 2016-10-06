@@ -28,12 +28,14 @@ MySceneGraph.prototype.onXMLReady=function()
 	
 	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseGlobals(rootElement);
+	error= this.parseViews(rootElement);
 	error = this.parseIllumination(rootElement);
-	/*error = this.parseLights(rootElement);
+	error = this.parseLights(rootElement);
 	error = this.parseTextures(rootElement);
 	error = this.parseMaterials(rootElement);
-	error = this.parseLeaves(rootElement);
-	error = this.parseNodes(rootElement);*/ 
+	error = this.parseTransformations(rootElement);
+	error = this.parsePrimitves(rootElement);
+	error=this.parseComponents(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
 		return;
@@ -72,26 +74,70 @@ MySceneGraph.prototype.parseGlobals= function(rootElement) {
 	this.axis_length=this.reader.getFloat(globals,'axis_length');
 	console.log("Globals read from file: {front_face=" + this.front_face + ", lighting=" + this.lighting + ", cullface=" + this.cullface + ", shading=" + this.shading + ",polygon mode=" + this.polygon_mode +",axis length="+this.axis_length + "}");
 
-	var tempList=rootElement.getElementsByTagName('list');
-
-	if (tempList == null  || tempList.length==0) {
-		return "list element is missing.";
-	}
 	
-	this.list=[];
-	// iterate over every element
-	var nnodes=tempList[0].children.length;
-	for (var i=0; i< nnodes; i++)
-	{
-		var e=tempList[0].children[i];
-
-		// process each element and store its information
-		this.list[e.id]=e.attributes.getNamedItem("coords").value;
-		console.log("Read list item id "+ e.id+" with value "+this.list[e.id]);
-	};
 
 };
-MySceneGraph.prototype.parseIllumination= function(rootElement){
+MySceneGraph.prototype.parseViews= function(rootElement){
+	
+	var elems =  rootElement.getElementsByTagName('views');
+	if (elems == null) {
+		return "views element is missing.";
+	}
+
+	if (elems.length != 1) {
+		return "either zero or more than one 'views' element found.";
+	}
+	this.perspectiveList=[];
+	var nperspectives=elems[0].children.length;
+	for (var i=0;i<nperspectives;i++){
+		
+		var tempper=elems[0].children[i];
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'near'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'angle'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'x'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'y'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'z'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'x'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'y'));
+		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'z'));
+	}
+};
+
+MySceneGraph.prototype.parseIllumination=function(rootElement){
+	var elems =  rootElement.getElementsByTagName('illumination');
+	if (elems == null) {
+		return "illumination element is missing.";
+	}
+
+	if (elems.length != 1) {
+		return "either zero or more than one 'illumination' element found.";
+	}
+	
+	var illum=elems[0];
+	this.doublesided=this.reader.getBoolean(illum,'doublesided');
+	this.local=this.reader.getBoolean(illum,'local');
+	this.ambient_r=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'r');
+	this.ambient_g=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'g');
+	this.ambient_b=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'b');
+	this.ambient_a=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'a');
+	this.background_r=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'r');
+	this.background_g=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'g');
+	this.background_b=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'b');
+	this.background_a=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'a');
+	
+};
+MySceneGraph.prototype.parseLights= function(rootElement){
+	
+};
+
+
+MySceneGraph.prototype.parseTextures= function(rootElement){
+	
+};
+
+
+MySceneGraph.prototype.parseMaterials= function(rootElement){
 	
 };
 	
