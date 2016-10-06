@@ -61,7 +61,7 @@ DSXnode.prototype.show = function (scene) {
   if(this.material != null){
     for(var i = 0; i < scene.materials /*May have to change this*/; i++){
       if(this.material == scene.materials[i]){
-        for(var j = 0; j < scene.textures; j++){
+        for(var j = 0; j < scene.textures /*This too*/; j++){
           if(this.texture == scene.textures[j]){
             //TODO start drawing
           }
