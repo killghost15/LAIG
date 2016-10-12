@@ -144,7 +144,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		var templight=elems[0].children[i];
 		
 		
-		if(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled')!=null){
+		if(templight.tagName=='omni'){
 		this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
 		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
 		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
@@ -164,7 +164,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
 	}
 		
-		if(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled')!=null){
+		if(templight.tagName=='spot'){
 			this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
 			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
 			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
