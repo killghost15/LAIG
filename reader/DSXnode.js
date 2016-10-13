@@ -1,15 +1,14 @@
 function DSXnode(scene){
-  this.sub_nodes=[];
-  this.texture=null;
-  this.material=null;
+  this.children=[];
+  this.texture;
+  this.material;
   this.drawtype=null;
-  this.base_matrix=mat4.create();
-  this.tran_matrix=mat4.create();
+  this.matrix=mat4.create();
   this.args=null;
 }
 
-DSXnode.prototype.addNode = function (id) {
-  this.sub_nodes.push(id);
+DSXnode.prototype.addChild = function (id) {
+  this.children.push(id);
 };
 
 DSXnode.prototype.setTexture = function (id) {
@@ -25,48 +24,61 @@ DSXnode.prototype.setType = function (id) {
 };
 
 DSXnode.prototype.setMatrix = function (mat) {
-  this.base_matrix = mat4.clone(mat);
-};
-
-DSXnode.prototype.transformMatrix = function (mat) {
-  mat4.multiply(mat, this.base_matrix, this.tran_matrix);
+  this.matrix = mat4.clone(mat);
 };
 
 DSXnode.prototype.setArgs = function (args) {
   this.args = args;
 };
 
-DSXnode.prototype.show = function (scene) {
-  /* Temporary stubs to check for object type.
-  Will be moved to a better place when function is implemented */
-  switch(this.drawtype){
-    case "tri":
-
-    break;
-    case "quad":
-
-    break;
-    case "circle":
-
-    break;
-    case "prism":
-
-    break;
-    case "cylinder":
-
-    break;
-    default:
-    console.log("Unsupported object type");
-  }
-  if(this.material != null){
-    for(var i = 0; i < scene.materials /*May have to change this*/; i++){
-      if(this.material == scene.materials[i]){
-        for(var j = 0; j < scene.textures /*This too*/; j++){
-          if(this.texture == scene.textures[j]){
-            //TODO start drawing
-          }
-        }
-      }
+DSXnode.prototype.setActiveMaterial = function (material, m_index) {
+  if((m_index = scene.materialIdList.indexOf(material)) != -1){
+    if((var t_index = scene.textureIdList.indexOf(this.texture)) != -1){
+      scene.materiaList[m_index].setTexture(scene.textureList[t_index]);
     }
+  }
+};
+
+DSXnode.prototype.draw = function (scene, material, M) {
+  var trans_matrix = mat4.create();
+  var m_index = null;
+  mat4.multiply(trans_matrix, M, this.matrix);
+  if(this.material[0] != "inherit"){
+    material = this.material;
+  }
+  setActiveMaterial(material, m_index);
+  if(this.children.length == 0){
+    //Push matrix, set material and texture, etc.
+    scene.pushMatrix();
+    if(m_index >= 0){
+      scene.def_app = scene.materialList[m_index];
+    }else{
+      scene.def_app = scene.fallbackMaterial;
+    }
+    scene.def_app.apply();
+    scene.multMatrix(this.trans_matrix);
+    switch(this.drawtype){
+      case "triangle":
+      var shape = MyTriangle(scene /*ARGS*/);
+      break;
+      case "rectangle":
+      var shape = MyQuad(scene /*ARGS*/);
+      break;
+      case "cylinder":
+      var shape = MyCylinder(scene /*ARGS*/);
+      break;
+      case "sphere":
+      var shape = MySphere(scene /*ARGS*/);
+      break;
+      case "torus":
+      var shape = MyNightmare(scene /*ARGS*/);
+      break;
+      default:
+      console.log(this.drawtype, "is not a supported shape. Use only one of these: triangle, rectangle, cylinder, sphere, torus");
+      break;
+    }
+  }
+  for(var i = 0; i < this.children.length; i++;){
+    this.children[i].draw(scene, material, M);
   }
 };
