@@ -129,18 +129,207 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 };
 MySceneGraph.prototype.parseLights= function(rootElement){
 	
+	var elems =  rootElement.getElementsByTagName('lights');
+	if (elems == null) {
+		return "lights element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'lights' element found.";
+	}
+	this.lightList=[];
+	var nlights=elems[0].children.length;
+	for (var i=0;i<nlights;i++){
+		
+		var templight=elems[0].children[i];
+		
+		
+		if(templight.tagName=='omni'){
+		this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
+		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+	}
+		
+		if(templight.tagName=='spot'){
+			this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'z'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
+			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+		}
+	
+
+}
+		
+	
 };
 
 
 MySceneGraph.prototype.parseTextures= function(rootElement){
-	
+	var elems =  rootElement.getElementsByTagName('textures');
+	if (elems == null) {
+		return "textures element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'textures' element found.";
+	}
+	this.textureList=[];
+	var ntextures=elems[0].children.length;
+	for (var i=0;i<ntextures;i++){
+		
+		var temptexture=elems[0].children[i];
+		
+		
+		
+		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'file'));
+		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_s'));
+		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_t'));
+	}	
 };
 
 
 MySceneGraph.prototype.parseMaterials= function(rootElement){
+	var elems =  rootElement.getElementsByTagName('materials');
+	if (elems == null) {
+		return "materials element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'materials' element found.";
+	}
+	this.materialList=[];
+	var nmaterials=elems[0].children.length;
+	for (var i=0;i<ntextures;i++){
+		
+		var tempmaterial=elems[0].children[i];
+		
+		
+		
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'r'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'g'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'b'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'a'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'r'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'g'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'b'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'a'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'r'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'g'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'b'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'a'));
+		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('shininess')[0],'value'));
+	}
 	
 };
 	
+
+MySceneGraph.prototype.parseTransformations= function(rootElement){
+	var elems =  rootElement.getElementsByTagName('transformations');
+	if (elems == null) {
+		return "materials element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'materials' element found.";
+	}
+	this.trasnformationList=[];
+	var ntransformations=elems[0].children.length;
+	for (var i=0;i<ntransformations;i++){
+		
+		var temptransformation=elems[0].children[i];
+		
+		
+		
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
+		this.trasnformationList.push(this.reader.getItem(temptransformation.getElementsByTagName('rotate')[0],'axis'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
+		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
+	}
+	
+};
+
+MySceneGraph.prototype.parsePrimitives= function(rootElement){
+	var elems =  rootElement.getElementsByTagName('primitives');
+	if (elems == null) {
+		return "primitives element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'primitives' element found.";
+	}
+	this.primitivesList=[];
+	var nprimitives=elems[0].children.length;
+	for (var i=0;i<nprimitives;i++){
+		
+		var temprimitive=elems[0].children[i];
+		
+		
+		
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
+		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
+		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
+		
+		
+	}
+	
+};
+
 /*
  * Callback to be executed on any read error
  */
