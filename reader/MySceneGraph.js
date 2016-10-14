@@ -92,15 +92,15 @@ MySceneGraph.prototype.parseViews= function(rootElement){
 	for (var i=0;i<nperspectives;i++){
 		
 		var tempper=elems[0].children[i];
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'near'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'angle'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'x'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'y'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'z'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'x'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'y'));
-		this.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'z'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'near'));
+		this.scene.sperspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'angle'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'x'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'y'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'z'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'x'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'y'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'z'));
 	}
 };
 
@@ -145,46 +145,48 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		
 		
 		if(templight.tagName=='omni'){
-		this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
-		this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+		this.scene.lightList.push('omni');
+		this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
+		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
 	}
 		
 		if(templight.tagName=='spot'){
-			this.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'z'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
-			this.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+			this.scene.lightList.push('spot');
+			this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'z'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
 		}
 	
 
@@ -234,50 +236,79 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 		var tempmaterial=elems[0].children[i];
 		
 		
-		
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'r'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'g'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'b'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'a'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'r'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'g'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'b'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'a'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'r'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'g'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'b'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'a'));
-		this.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('shininess')[0],'value'));
+		this.scene.materialList.push(tempmaterial.getAttribute('id'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'r'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'g'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'b'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'a'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'r'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'g'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'b'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'a'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'r'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'g'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'b'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'a'));
+		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('shininess')[0],'value'));
 	}
 	
 };
 	
-
+//#TODO Mudar isto pra interpretar como matriz e multiplicar
 MySceneGraph.prototype.parseTransformations= function(rootElement){
 	var elems =  rootElement.getElementsByTagName('transformations');
 	if (elems == null) {
-		return "materials element is missing.";
+		return "transformations element is missing.";
 	}
 
-	if (elems.length < 1) {
+	/*if (elems.length < 1) {
 		return "not enough 'materials' element found.";
-	}
+	}*/
+	this.transl=[];
+	this.rot=[];
+	this.scale=[];
 	this.trasnformationList=[];
 	var ntransformations=elems[0].children.length;
 	for (var i=0;i<ntransformations;i++){
 		
 		var temptransformation=elems[0].children[i];
 		
+		this.transf_matrix = mat4.clone(mat4.create());
+		this.id=temptransformation.getAttribute('id');
+		this.scene.transformationList.push(this.id);
+		//#TODO n sei se funciona
+		if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
+			this.transl[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
+			this.transl[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
+			this.transl[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
+			mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+			
+		}
+		if(temptransformation.getElementsByTagName('rotate')[0]=='rotate'){
+			this.rot[0]=(this.reader.getString(temptransformation.getElementsByTagName('rotate')[0],'axis'));
+			this.rot[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
+			if(this.rot[1]=='x')
+			mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[1,0,0]);
+			
+			if(this.rot[1]=='y')
+				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,1,0]);
+			
+		if(this.rot[1]=='z')
+			mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
+		}
+		
+		if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
+			this.scale[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
+			this.scale[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
+			this.scale[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
+			mat4.scale(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+			
+		}
 		
 		
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
-		this.trasnformationList.push(this.reader.getItem(temptransformation.getElementsByTagName('rotate')[0],'axis'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
-		this.trasnformationList.push(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
+		
+		this.scene.trasnformationList.push(this.transf_matrix);
+		
 	}
 	
 };
@@ -297,38 +328,56 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		
 		var temprimitive=elems[0].children[i];
 		
+		this.scene.primitivesList.push(temprimitive.getAttribute('id'));
+		//#TODO testar as primitivas
+		if(temprimitive.getElementsByTagName('cylinder').length!=0){
 		
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
+		}
 		
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
-		this.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
-		this.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
+		if(temprimitive.getElementsByTagName('rectangle').length!=0){
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
+		}
+		if(temprimitive.getElementsByTagName('triangle').length!=0){
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
+		}
+		if(temprimitive.getElementsByTagName('sphere').length!=0){
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
+		}
+		if(temprimitive.getElementsByTagName('torus').length!=0){
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
+		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
+		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
+		}
 		
 		
 	}
 	
 };
+
+MySceneGraph.prototype.parseComponents=function(rootElement){
+	
+};
+
+
 
 /*
  * Callback to be executed on any read error

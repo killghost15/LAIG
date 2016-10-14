@@ -1,6 +1,15 @@
 
 function XMLscene() {
     CGFscene.call(this);
+    this.materialList=[];
+    this.trasnformationList=[];
+    this.primitiveList=[];
+    this.lightList=[];
+    this.texturesList=[];
+    
+    this.perspectiveList=[];
+    this.componentGraph=[];
+    
 }
 
 XMLscene.prototype = Object.create(CGFscene.prototype);
