@@ -39,7 +39,7 @@ DSXnode.prototype.setActiveMaterial = function (material, m_index) {
   }
 };
 
-DSXnode.prototype.draw = function (scene, material, M) {
+DSXnode.prototype.display = function (scene, material, M) {
   var trans_matrix = mat4.create();
   var m_index = null;
   mat4.multiply(trans_matrix, M, this.matrix);
@@ -79,6 +79,6 @@ DSXnode.prototype.draw = function (scene, material, M) {
     }
   }
   for(var i = 0; i < this.children.length; i++;){
-    this.children[i].draw(scene, material, M);
+    this.children[i].display(scene, material, M);
   }
 };

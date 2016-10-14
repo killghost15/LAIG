@@ -65,7 +65,7 @@ MySceneGraph.prototype.parseGlobals= function(rootElement) {
 
 	// various examples of different types of access
 	var globals = elems[0];
-	this.depth_func = this.reader.Item(globals, 'depth_func');  //este ano tem q ler um dos parametros do RGB separados
+	this.depth_func = this.reader.getItem(globals, 'depth_func');  //este ano tem q ler um dos parametros do RGB separados
 	this.lighting = this.reader.getItem(globals, 'lighting', ["enable"]);
 	this.cullface = this.reader.getItem(globals, 'cull_face', ["back","enable"]);
 	this.front_face = this.reader.getItem(globals, 'front_face', ["CCW","CW"]);
@@ -87,7 +87,7 @@ MySceneGraph.prototype.parseViews= function(rootElement){
 	if (elems.length != 1) {
 		return "either zero or more than one 'views' element found.";
 	}
-	this.perspectiveList=[];
+	
 	var nperspectives=elems[0].children.length;
 	for (var i=0;i<nperspectives;i++){
 		
@@ -113,7 +113,7 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 	if (elems.length != 1) {
 		return "either zero or more than one 'illumination' element found.";
 	}
-	
+	//#TODO put these variables in xml scene
 	var illum=elems[0];
 	this.doublesided=this.reader.getBoolean(illum,'doublesided');
 	this.local=this.reader.getBoolean(illum,'local');
@@ -137,7 +137,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'lights' element found.";
 	}
-	this.lightList=[];
+	
 	var nlights=elems[0].children.length;
 	for (var i=0;i<nlights;i++){
 		
@@ -205,7 +205,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'textures' element found.";
 	}
-	this.textureList=[];
+
 	var ntextures=elems[0].children.length;
 	for (var i=0;i<ntextures;i++){
 		
@@ -213,9 +213,9 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 		
 		
 		
-		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'file'));
-		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_s'));
-		this.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_t'));
+		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'file'));
+		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_s'));
+		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_t'));
 	}	
 };
 
@@ -229,7 +229,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'materials' element found.";
 	}
-	this.materialList=[];
+	
 	var nmaterials=elems[0].children.length;
 	for (var i=0;i<ntextures;i++){
 		
@@ -267,7 +267,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 	this.transl=[];
 	this.rot=[];
 	this.scale=[];
-	this.trasnformationList=[];
+	
 	var ntransformations=elems[0].children.length;
 	for (var i=0;i<ntransformations;i++){
 		
@@ -322,7 +322,7 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'primitives' element found.";
 	}
-	this.primitivesList=[];
+	
 	var nprimitives=elems[0].children.length;
 	for (var i=0;i<nprimitives;i++){
 		
@@ -374,6 +374,33 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 };
 
 MySceneGraph.prototype.parseComponents=function(rootElement){
+	
+	var elems =  rootElement.getElementsByTagName('components');
+	if (elems == null) {
+		return "components element is missing.";
+	}
+
+	if (elems.length < 1) {
+		return "not enough 'components' element found.";
+	}
+	this.nodes=[];
+	var nnodes=elems[0].children.length;
+	for (var i=0;i<nnodes;i++){
+		
+		var tempcomponent=elems[0].children[i];
+		if(this.nodes[tempcomponent]!==undefined){
+			console.error("Node " + e + " already exists");
+		}
+		this.nodes[tempcomponent.id]=new DSXnode();
+		
+		//default é o primeiro logo elemento 0 do material dentro dos materials
+	    this.nodes[tempcomponent.id].setMaterial(this.reader.getString(temcomponent.getElementsByTagName('materials')[0].getElementsByTagName('material'), 'id', true));
+		
+	    this.nodes[tempcomponent.id].setTexture(this.reader.getString(temcomponent.getElementsByTagName('texture')[0], 'id', true));
+		
+	}
+
+	
 	
 };
 
