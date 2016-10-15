@@ -396,7 +396,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	for (var i=0;i<nnodes;i++){
 		
 		var tempcomponent=elems[0].children[i];
-		if(this.nodes[tempcomponent]!==undefined){
+		if(this.nodes[tempcomponent.id]!==undefined){
 			console.error("Node " + e + " already exists");
 		}
 		//se não existir o node então:
@@ -420,16 +420,16 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    }
 	    //se não existir o transformationref vai ver se existe as transformações explicitas
 	    else{
-	    	if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
-				this.transl[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
-				this.transl[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
-				this.transl[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
+	    	if(tempcomponent.children[0].getElementsByTagName('translate')[0]==null){
+				this.transl[0]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'x'));
+				this.transl[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'y'));
+				this.transl[2]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'z'));
 				mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
 				
 			}
-			if(temptransformation.getElementsByTagName('rotate')[0]=='rotate'){
-				this.rot[0]=(this.reader.getString(temptransformation.getElementsByTagName('rotate')[0],'axis'));
-				this.rot[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
+			if(tempcomponent.children[0].getElementsByTagName('rotate')[0]==null){
+				this.rot[0]=(this.reader.getString(tempcomponent.children[0].getElementsByTagName('rotate')[0],'axis'));
+				this.rot[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('rotate')[0],'angle'));
 				if(this.rot[1]=='x')
 				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[1,0,0]);
 				
@@ -440,10 +440,10 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
 			}
 			
-			if(temptransformation.getElementsByTagName('scale')[0]=='scale'){
-				this.scale[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
-				this.scale[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
-				this.scale[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
+			if(tempcomponent.children[0].getElementsByTagName('scale')[0]==null){
+				this.scale[0]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'x'));
+				this.scale[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'y'));
+				this.scale[2]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'z'));
 				mat4.scale(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
 				
 			}
@@ -452,6 +452,8 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	   
 		
 			}
+		//children block
+		
 		}
 
 	
