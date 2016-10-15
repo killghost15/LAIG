@@ -1,6 +1,6 @@
 # LAIG
 #Structure
-*List of nodes works through [ID]
+* List of nodes works through [ID]
 
 #Components
 * Falta a parte children
