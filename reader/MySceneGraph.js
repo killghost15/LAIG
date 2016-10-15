@@ -93,7 +93,7 @@ MySceneGraph.prototype.parseViews= function(rootElement){
 		
 		var tempper=elems[0].children[i];
 		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'near'));
-		this.scene.sperspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
+		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
 		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'angle'));
 		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'x'));
 		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'y'));
@@ -145,7 +145,10 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		
 		
 		if(templight.tagName=='omni'){
+		
+		this.scene.lighList.push(templight.getAttribute('id'));
 		this.scene.lightList.push('omni');
+		
 		this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
 		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
 		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
@@ -166,6 +169,7 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	}
 		
 		if(templight.tagName=='spot'){
+			this.scene.lighList.push(templight.getAttribute('id'));
 			this.scene.lightList.push('spot');
 			this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
 			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
@@ -212,7 +216,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 		var temptexture=elems[0].children[i];
 		
 		
-		
+		this.scene.textureList.push(temptexture.getAttribute('id'));
 		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'file'));
 		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_s'));
 		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_t'));
@@ -276,7 +280,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		this.transf_matrix = mat4.clone(mat4.create());
 		this.id=temptransformation.getAttribute('id');
 		this.scene.transformationList.push(this.id);
-		//#TODO n sei se funciona
+		//#TODO n sei se funciona adicionar o entendimento de q pode haver vários translates seguidos logo tem de ter um for()
 		if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
 			this.transl[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
 			this.transl[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
@@ -297,7 +301,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 			mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
 		}
 		
-		if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
+		if(temptransformation.getElementsByTagName('scale')[0]=='scale'){
 			this.scale[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
 			this.scale[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
 			this.scale[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
@@ -383,22 +387,72 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'components' element found.";
 	}
+	this.transl=[];
+	this.rot=[];
+	this.scale=[];
 	this.nodes=[];
 	var nnodes=elems[0].children.length;
+	this.transf_matrix = mat4.clone(mat4.create());
 	for (var i=0;i<nnodes;i++){
 		
 		var tempcomponent=elems[0].children[i];
 		if(this.nodes[tempcomponent]!==undefined){
 			console.error("Node " + e + " already exists");
 		}
+		//se não existir o node então:
+		else{
+			//cria o node e coloca o na lista de nodes q está identada por ids
 		this.nodes[tempcomponent.id]=new DSXnode();
 		
-		//default é o primeiro logo elemento 0 do material dentro dos materials
+		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
 	    this.nodes[tempcomponent.id].setMaterial(this.reader.getString(temcomponent.getElementsByTagName('materials')[0].getElementsByTagName('material'), 'id', true));
 		
 	    this.nodes[tempcomponent.id].setTexture(this.reader.getString(temcomponent.getElementsByTagName('texture')[0], 'id', true));
+	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
+	    if(this.reader.getString(temcomponent.getElementsByTagName('transformation')[0].getElementsByTagName('transformationref')[0],'id')!=""){
+	    	var transformationid= this.reader.getString(temcomponent.getElementsByTagName('transformation')[0].getElementsByTagName('transformationref')[0],'id');
+	    	for(var j=0;j<this.scene.transformationList.length;j++){
+	    		if(this.scene.transformationList[j]==transformationid)
+	    			this.nodes[tempcomponent.id].setMatrix(this.scene.transformationList[j+1]);
+	    	}
+	    	
+	    	
+	    }
+	    //se não existir o transformationref vai ver se existe as transformações explicitas
+	    else{
+	    	if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
+				this.transl[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
+				this.transl[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
+				this.transl[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
+				mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+				
+			}
+			if(temptransformation.getElementsByTagName('rotate')[0]=='rotate'){
+				this.rot[0]=(this.reader.getString(temptransformation.getElementsByTagName('rotate')[0],'axis'));
+				this.rot[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
+				if(this.rot[1]=='x')
+				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[1,0,0]);
+				
+				if(this.rot[1]=='y')
+					mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,1,0]);
+				
+			if(this.rot[1]=='z')
+				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
+			}
+			
+			if(temptransformation.getElementsByTagName('scale')[0]=='scale'){
+				this.scale[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
+				this.scale[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
+				this.scale[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
+				mat4.scale(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+				
+			}
+			this.nodes[tempcomponent.id].setMatrix(this.transf_matrix);
+	    }
+	   
 		
-	}
+			}
+		}
 
 	
 	
