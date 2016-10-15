@@ -5,7 +5,7 @@ function MySceneGraph(filename, scene) {
 	// Establish bidirectional references between scene and graph
 	this.scene = scene;
 	scene.graph=this;
-		
+		this.nodes=[];
 	// File reading 
 	this.reader = new CGFXMLreader();
 
@@ -390,7 +390,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	this.transl=[];
 	this.rot=[];
 	this.scale=[];
-	this.nodes=[];
+	
 	var nnodes=elems[0].children.length;
 	this.transf_matrix = mat4.clone(mat4.create());
 	for (var i=0;i<nnodes;i++){
