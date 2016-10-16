@@ -2,6 +2,7 @@
 function XMLscene() {
     CGFscene.call(this);
     this.materialList=[];
+    this.builtMaterials=[];
     this.trasnformationList=[];
     this.primitiveList=[];
     this.lightList=[];
@@ -22,6 +23,8 @@ XMLscene.prototype.init = function (application) {
 
     this.initLights();
 
+    this.initMaterials();
+	
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     this.gl.clearDepth(100.0);
@@ -45,6 +48,17 @@ XMLscene.prototype.initLights = function () {
 XMLscene.prototype.initCameras = function () {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 };
+
+XMLscene.prototype.initMaterials = function() {
+  for(var i = 0; i < this.materialList.length; this += 14){
+    this.builtMaterials.push(this.materialList[i]);
+    this.material = new CGFappearance(this);
+    this.material.setEmission(this.materialList[i+1],this.materialList[i+2],this.materialList[i+3],this.materialList[i+4]);
+    this.material.setAmbient(this.materialList[i+5],this.materialList[i+6],this.materialList[i+7],this.materialList[i+8]);
+    this.material.setDiffuse(this.materialList[i+9],this.materialList[i+10],this.materialList[i+11],this.materialList[i+12]);
+    this.material.setShininess(this.materialList[i+13]);
+  }
+}
 
 XMLscene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
