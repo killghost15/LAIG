@@ -1,6 +1,6 @@
 
 <dsx>
-	<scene root="scene" front_face="CCW" depth_func="LEQUAL,enable" cull_face="back,enable" lighting="enable" shading="Gouraud" polygon_mode="fill" axis_length="3"/>
+	<scene root="root"  axis_length="1.0"/>
 	 <views default="defaultview" >
 	 	<perspective id="perspective1" near= "0.1" far="1000" angle="60">
 	 		<from x="0" y="0" z="0" />
@@ -36,7 +36,7 @@
     <textures>
    <texture id="tatooine" file="../resources/tatooine.png" length_s="1" length_t="1" /> 
    <texture id="moon" file="../resources/moon.png" length_s="1" length_t="1" /> 
-   <texture id="sattelitetex" file="../resources/moon.png" length_s="1" length_t="1" />
+   <texture id="sattelitetex" file="../resources/sattelite.png" length_s="1" length_t="1" />
     
     </textures>
 
