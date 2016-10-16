@@ -459,9 +459,9 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			
 		}
 		//#TODO o q fazer com o primitiveref deve ser o drawtype digo eu mas onde vamos guardar este drawtype
-		for(var k=0;k<tempchildren.getElementsByTagName('primitiveref').lenght;k++){
-			this.nodes[tempcomponent.id].setType(this.reader.getString(tempchildren.getElementsByTagName('primitiveref')[k],id));
-		}
+		
+			this.nodes[tempcomponent.id].setType(this.reader.getString(tempchildren.getElementsByTagName('primitiveref')[0],id));
+		
 	}
 	
 	
