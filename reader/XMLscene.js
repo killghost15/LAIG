@@ -23,7 +23,7 @@ XMLscene.prototype.init = function (application) {
 
     this.initLights();
 
-    this.initMaterials();
+    
 	
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -50,13 +50,14 @@ XMLscene.prototype.initCameras = function () {
 };
 
 XMLscene.prototype.initMaterials = function() {
-  for(var i = 0; i < this.materialList.length; this += 14){
+  for(var i = 0; i < this.materialList.length; i+= 14){
     this.builtMaterials.push(this.materialList[i]);
     this.material = new CGFappearance(this);
     this.material.setEmission(this.materialList[i+1],this.materialList[i+2],this.materialList[i+3],this.materialList[i+4]);
     this.material.setAmbient(this.materialList[i+5],this.materialList[i+6],this.materialList[i+7],this.materialList[i+8]);
     this.material.setDiffuse(this.materialList[i+9],this.materialList[i+10],this.materialList[i+11],this.materialList[i+12]);
     this.material.setShininess(this.materialList[i+13]);
+    builtMaterials.push(this.material);
   }
 }
 
@@ -75,6 +76,8 @@ XMLscene.prototype.onGraphLoaded = function ()
 	/*this.lights[0].setVisible(true);
     this.lights[0].enable();*/
 this.axis=new CGFaxis(this,this.graph.axis_length);
+
+
     for(var i=0,j=0;i< this.lightList.length;j++){
     	if(this.lightList[i]=="omni"){
     	if(this.lightList[i+2]==true){
@@ -105,6 +108,8 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     		i+=24;
     	
     }
+    
+    this.initMaterials();
 };
 
 XMLscene.prototype.display = function () {
