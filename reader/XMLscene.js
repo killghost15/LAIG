@@ -33,10 +33,13 @@ XMLscene.prototype.init = function (application) {
 };
 
 XMLscene.prototype.initLights = function () {
-
-	this.lights[0].setPosition(2, 3, 3, 1);
-    this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-    this.lights[0].update();
+	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
+	
+	
+	for(var u=0; u<this.lights.length ; u++){
+		this.lights[u].setVisible(true);
+		this.lights[u].update();
+	}
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -54,9 +57,40 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
-	this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
-	this.lights[0].setVisible(true);
-    this.lights[0].enable();
+	this.gl.clearColor(this.graph.background_r,this.graph.background_g,this.graph.background_b,this.graph.background_a);
+	/*this.lights[0].setVisible(true);
+    this.lights[0].enable();*/
+this.axis=new CGFaxis(this,this.graph.axis_length);
+    for(var i=0,j=0;i< this.lightList.length;j++){
+    	if(this.lightList[i]=="omni"){
+    	if(this.lightList[i+2]==true){
+    	this.lights[j].enable()
+    	}
+    	this.lights[j].setPosition(this.lightList[i+3],this.lightList[i+4],this.lightList[i+5],this.lightList[i+6]);
+    	this.lights[j].setAmbient(this.lightList[i+7],this.lightList[i+8],this.lightList[i+9],this.lightList[i+10]);
+    	this.lights[j].setDiffuse(this.lightList[i+11],this.lightList[i+12],this.lightList[i+13],this.lightList[i+14]);
+    	this.lights[j].setSpecular(this.lightList[i+15],this.lightList[i+16],this.lightList[i+17],this.lightList[i+18]);
+    	
+    }
+    	if(this.lightList[i]=="spot"){
+        	if(this.lightList[i+2]==true){
+        	this.lights[j].enable()
+        	}
+        	this.lights[j].setSpotCutOff(this.lightList[i+3]);
+        	this.lights[j].setSpotExponent(this.lightList[i+4]);
+        	this.lights[j].setSpotDirection(this.lightList[i+5]-this.lightList[i+8],this.lightList[i+6]-this.lightList[i+9],this.lightList[i+7]-this.lightList[i+10]);
+        	this.lights[j].setPosition(this.lightList[i+8],this.lightList[i+9],this.lightList[i+10],this.lightList[i+11]);
+        	this.lights[j].setAmbient(this.lightList[i+12],this.lightList[i+13],this.lightList[i+14],this.lightList[i+15]);
+        	this.lights[j].setDiffuse(this.lightList[i+16],this.lightList[i+17],this.lightList[i+18],this.lightList[i+19]);
+        	this.lights[j].setSpecular(this.lightList[i+20],this.lightList[i+21],this.lightList[i+22],this.lightList[i+23]);
+        	
+        }
+    	if(this.lightList[i]=="omni")
+    		i+=19;
+    	if(this.lightList[i]=="spot")
+    		i+=24;
+    	
+    }
 };
 
 XMLscene.prototype.display = function () {

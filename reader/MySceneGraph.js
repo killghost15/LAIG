@@ -27,7 +27,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	var rootElement = this.reader.xmlDoc.documentElement; //DSX aqui
 	
 	// Here should go the calls for different functions to parse the various blocks
-	var error = this.parseGlobals(rootElement);
+	var error;
 	error= this.parseViews(rootElement);
 	error = this.parseIllumination(rootElement);
 	error = this.parseLights(rootElement);
@@ -51,28 +51,22 @@ MySceneGraph.prototype.onXMLReady=function()
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
- */
+ */ 
 MySceneGraph.prototype.parseGlobals= function(rootElement) {
 	
 	var elems =  rootElement.getElementsByTagName('scene');
 	if (elems == null) {
-		return "globals element is missing.";
+		return "scene element is missing.";
 	}
 
 	if (elems.length != 1) {
-		return "either zero or more than one 'globals' element found.";
+		return "either zero or more than one 'scene' element found.";
 	}
 
 	// various examples of different types of access
 	var globals = elems[0];
-	this.depth_func = this.reader.getItem(globals, 'depth_func');  //este ano tem q ler um dos parametros do RGB separados
-	this.lighting = this.reader.getItem(globals, 'lighting', ["enable"]);
-	this.cullface = this.reader.getItem(globals, 'cull_face', ["back","enable"]);
-	this.front_face = this.reader.getItem(globals, 'front_face', ["CCW","CW"]);
-	this.shading=this.reader.getItem(globals,'shading');
-	this.polygon_mode=this.reader.getItem(globals,'polygon_mode',["fill"]);
 	this.axis_length=this.reader.getFloat(globals,'axis_length');
-	console.log("Globals read from file: {front_face=" + this.front_face + ", lighting=" + this.lighting + ", cullface=" + this.cullface + ", shading=" + this.shading + ",polygon mode=" + this.polygon_mode +",axis length="+this.axis_length + "}");
+	
 
 	
 
@@ -145,9 +139,9 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		
 		
 		if(templight.tagName=='omni'){
-		
-		this.scene.lighList.push(templight.getAttribute('id'));
 		this.scene.lightList.push('omni');
+		this.scene.lighList.push(templight.getAttribute('id'));
+		
 		
 		this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
 		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
@@ -169,9 +163,11 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 	}
 		
 		if(templight.tagName=='spot'){
-			this.scene.lighList.push(templight.getAttribute('id'));
 			this.scene.lightList.push('spot');
+			this.scene.lightList.push(templight.getAttribute('id'));
 			this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('spot')[0],'angle')*Math.PI/180);
+			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('spot')[0],'exponent'));
 			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
 			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
 			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'z'));
