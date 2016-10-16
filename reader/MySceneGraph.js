@@ -401,7 +401,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		}
 		//se não existir o node então:
 		else{
-			//cria o node e coloca o na lista de nodes q está identada por ids
+			//cria o node e coloca o na lista de nodes q está idexada por ids
 		this.nodes[tempcomponent.id]=new DSXnode();
 		
 		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
@@ -459,8 +459,10 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			
 		}
 		//#TODO o q fazer com o primitiveref deve ser o drawtype digo eu mas onde vamos guardar este drawtype
+		for(var k=0;k<tempchildren.getElementsByTagName('primitiveref').lenght;k++){
+			this.nodes[tempcomponent.id].setType(this.reader.getString(tempchildren.getElementsByTagName('primitiveref')[k],id));
 		}
-
+	}
 	
 	
 };

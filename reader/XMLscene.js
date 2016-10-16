@@ -8,7 +8,7 @@ function XMLscene() {
     this.texturesList=[];
     
     this.perspectiveList=[];
-    this.componentGraph=[];
+    
     
 }
 
