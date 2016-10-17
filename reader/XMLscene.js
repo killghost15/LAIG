@@ -83,7 +83,7 @@ XMLscene.prototype.initPrimitives = function () {
 				i+=11;
 				break;
 			case "rectangle":
-				this.primitive = new MyRectangle(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+				this.primitive = new MyQuad(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
 				i+=6;
 				break;
 			case "cylinder":
