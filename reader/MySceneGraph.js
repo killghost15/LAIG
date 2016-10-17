@@ -86,15 +86,17 @@ MySceneGraph.prototype.parseViews= function(rootElement){
 	for (var i=0;i<nperspectives;i++){
 		
 		var tempper=elems[0].children[i];
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'near'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'far'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('perspective')[0],'angle'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'x'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'y'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('from')[0],'z'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'x'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'y'));
-		this.scene.perspectiveList.push(this.reader.getFloat(tempper.getElementsByTagName('to')[0],'z'));
+		this.scene.perspectiveList.push(tempper.getAttribute('id'));
+		this.scene.perspectiveList.push(tempper.getAttribute('near'));
+		this.scene.perspectiveList.push(tempper.getAttribute('far'));
+		this.scene.perspectiveList.push(tempper.getAttribute('angle'));
+		this.scene.perspectiveList.push(tempper.children[0].getAttribute('x'));
+		this.scene.perspectiveList.push(tempper.children[0].getAttribute('y'));
+		this.scene.perspectiveList.push(tempper.children[0].getAttribute('z'));
+		this.scene.perspectiveList.push(tempper.children[1].getAttribute('x'));
+		this.scene.perspectiveList.push(tempper.children[1].getAttribute('y'));
+		this.scene.perspectiveList.push(tempper.children[1].getAttribute('z'));
+		
 	}
 };
 
