@@ -59,7 +59,7 @@ XMLscene.prototype.initMaterials = function() {
     this.material.setAmbient(this.materialList[i+5],this.materialList[i+6],this.materialList[i+7],this.materialList[i+8]);
     this.material.setDiffuse(this.materialList[i+9],this.materialList[i+10],this.materialList[i+11],this.materialList[i+12]);
     this.material.setShininess(this.materialList[i+13]);
-    builtMaterials.push(this.material);
+    this.builtMaterials.push(this.material);
   }
 }
 
@@ -75,9 +75,9 @@ XMLscene.prototype.initTextures = function () {
 
 XMLscene.prototype.initPrimitives = function () {
 	var i = 0;
-	while(i < primitiveList.length){
+	while(i < this.primitiveList.length){
 		this.builtPrimitives.push(this.primitiveList[i]);
-		switch(primitiveList[i+1]){
+		switch(this.primitiveList[i+1]){
 			case "triangle":
 				this.primitive = new MyTriangle(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7],this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]);
 				i+=11;

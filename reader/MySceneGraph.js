@@ -35,7 +35,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	error = this.parseMaterials(rootElement);
 	error = this.parseTransformations(rootElement);
 	error = this.parsePrimitives(rootElement);
-	error=this.parseComponents(rootElement);
+	error = this.parseComponents(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
 		return;
@@ -340,46 +340,46 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		
 		this.scene.primitiveList.push(temprimitive.getAttribute('id'));
 		//#TODO testar as primitivas
-		if(temprimitive.getElementsByTagName('cylinder').length!=0){
+		if(temprimitive.children[0].tagName=='cylinder'){
 		this.scene.primitiveList.push("cylinder");
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
-		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
-		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('base'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('top'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('height'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('stacks'));
 		}
 		
-		if(temprimitive.getElementsByTagName('rectangle').length!=0){
+		if(temprimitive.children[0].tagName=='rectangle'){
 		this.scene.primitiveList.push("rectangle");
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x1'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y1'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x2'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y2'));
 		}
-		if(temprimitive.getElementsByTagName('triangle').length!=0){
-			this.scene.primitiveList.push("triangle");
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
+		if(temprimitive.children[0].tagName=='triangle'){
+		this.scene.primitiveList.push("triangle");
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x1'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y1'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z1'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x2'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y2'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z2'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x3'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y3'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z3'));
 		}
-		if(temprimitive.getElementsByTagName('sphere').length!=0){
-			this.scene.primitiveList.push("sphere");
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
-		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
-		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
+		if(temprimitive.children[0].tagName=='sphere'){
+		this.scene.primitiveList.push("sphere");
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('radius'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('stacks'));
 		}
-		if(temprimitive.getElementsByTagName('torus').length!=0){
+		if(temprimitive.children[0].tagName=='torus'){
 			this.scene.primitiveList.push("torus");
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
-		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
-		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
-		this.scene.primitivsList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('inner'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('outer'));
+		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
+		this.scene.primitivsList.push(temprimitive.children[0].getAttribute('loops'));
 		}
 		
 		
@@ -390,6 +390,7 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 MySceneGraph.prototype.parseComponents=function(rootElement){
 	
 	var elems =  rootElement.getElementsByTagName('components');
+	console.log(elems);
 	if (elems == null) {
 		return "components element is missing.";
 	}
@@ -400,13 +401,12 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	this.transl=[];
 	this.rot=[];
 	this.scale=[];
-	
 	var nnodes=elems[0].children.length;
 	this.transf_matrix = mat4.clone(mat4.create());
 	for (var i=0;i<nnodes;i++){
 		
 		var tempcomponent=elems[0].children[i];
-		if(this.nodes[tempcomponent.id]!==undefined){
+		if(this.nodes[tempcomponent.id]!=undefined){
 			console.error("Node " + e + " already exists");
 		}
 		//se não existir o node então:
@@ -415,12 +415,14 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		this.nodes[tempcomponent.id]=new DSXnode();
 		
 		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
-	    this.nodes[tempcomponent.id].setMaterial(this.reader.getString(temcomponent.getElementsByTagName('materials')[0].getElementsByTagName('material'), 'id', true));
+	    this.nodes[tempcomponent.id].setMaterial(tempcomponent.children[1].children[0].getAttribute('id'));
 		
-	    this.nodes[tempcomponent.id].setTexture(this.reader.getString(temcomponent.getElementsByTagName('texture')[0], 'id', true));
+	    this.nodes[tempcomponent.id].setTexture(tempcomponent.children[2].getAttribute('id'));
+	    
 	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
-	    if(this.reader.getString(temcomponent.getElementsByTagName('transformation')[0].getElementsByTagName('transformationref')[0],'id')!=""){
-	    	var transformationid= this.reader.getString(temcomponent.getElementsByTagName('transformation')[0].getElementsByTagName('transformationref')[0],'id');
+	    if(tempcomponent.children[0].children.length!=0){
+	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
+	    	var transformationid=tempcomponent.children[1].children[0].getAttribute('id');
 	    	for(var j=0;j<this.scene.transformationList.length;j++){
 	    		if(this.scene.transformationList[j]==transformationid)
 	    			this.nodes[tempcomponent.id].setMatrix(this.scene.transformationList[j+1]);
@@ -430,16 +432,18 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    }
 	    //se não existir o transformationref vai ver se existe as transformações explicitas
 	    else{
-	    	if(tempcomponent.children[0].getElementsByTagName('translate')[0]==null){
-				this.transl[0]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'x'));
-				this.transl[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'y'));
-				this.transl[2]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('translate')[0],'z'));
-				mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+	    	for(var j=0;j<tempcomponent.children[0].children.length;j++){
+	    	if(tempcomponent.children[0].children[j].tagName=='translate'){
+				this.transl[0]=(tempcomponent.children[0].children[j].getAttribute('x'));
+				
+				this.transl[1]=(tempcomponent.children[0].children[j].getAttribute('y'));
+				this.transl[2]=(tempcomponent.children[0].children[j].getAttribute('z'));
+				mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.transl[2]])
 				
 			}
-			if(tempcomponent.children[0].getElementsByTagName('rotate')[0]==null){
-				this.rot[0]=(this.reader.getString(tempcomponent.children[0].getElementsByTagName('rotate')[0],'axis'));
-				this.rot[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('rotate')[0],'angle'));
+			if(tempcomponent.children[0].children[j].tagName=='rotate'){
+				this.rot[0]=(tempcomponent.children[0].children[j].getAttribute('axis'));
+				this.rot[1]=(tempcomponent.children[0].children[j].getAttribute('angle'));
 				if(this.rot[1]=='x')
 				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[1,0,0]);
 				
@@ -450,27 +454,33 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 				mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
 			}
 			
-			if(tempcomponent.children[0].getElementsByTagName('scale')[0]==null){
-				this.scale[0]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'x'));
-				this.scale[1]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'y'));
-				this.scale[2]=(this.reader.getFloat(tempcomponent.children[0].getElementsByTagName('scale')[0],'z'));
-				mat4.scale(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+			if(tempcomponent.children[0].children[j].tagName=='scale'){
+				this.scale[0]=(tempcomponent.children[0].children[j].getAttribute('x'));
+				this.scale[1]=(tempcomponent.children[0].children[j].getAttribute('y'));
+				this.scale[2]=(tempcomponent.children[0].children[j].getAttribute('z'));
+				mat4.scale(this.transf_matrix, this.transf_matrix, [this.scale[0], this.scale[1], this.scale[2]])
 				
+			}
 			}
 			this.nodes[tempcomponent.id].setMatrix(this.transf_matrix);
 	    }
 	   
 		
 			}
+	    }
 		//children block
-		var tempchildren=tempcomponent.children[4];
-		for(var k=0;k<tempchildren.getElementsByTagName('componentref').lenght;k++){
-			this.nodes[tempcomponent.id].addChild(this.reader.getString(tempchildren.getElementsByTagName('componentref')[k],id));
+		var tempchildren=tempcomponent.children[3];
+		console.log(tempchildren);
+		for(var k=0;k<tempchildren.length;k++){
+			if(tempchildren.children[k].tagName=='componentref')
+			this.nodes[tempcomponent.id].addChild(tempchildren.children[k].getAttribute('id'));
+			if(tempchildren.children[k].tagName=='primitiveref')
+				this.nodes[tempcomponent.id].setType(tempchildren.children[k].getAttribute('id'));
 			
 		}
 		//#TODO o q fazer com o primitiveref deve ser o drawtype digo eu mas onde vamos guardar este drawtype
 		
-			this.nodes[tempcomponent.id].setType(this.reader.getString(tempchildren.getElementsByTagName('primitiveref')[0],id));
+			
 		
 	}
 	
