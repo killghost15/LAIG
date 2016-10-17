@@ -5,6 +5,7 @@ function XMLscene() {
     this.builtMaterials=[];
     this.trasnformationList=[];
     this.primitiveList=[];
+    this.builtPrimitives=[];
     this.lightList=[];
     this.texturesList=[];
     this.builtTextures=[];
@@ -72,6 +73,39 @@ XMLscene.prototype.initTextures = function () {
   }
 };
 
+XMLscene.prototype.initPrimitives = function () {
+	var i = 0;
+	while(i < primitiveList.length){
+		this.builtPrimitives.push(this.primitiveList[i]);
+		switch(primitiveList[i+1]){
+			case "triangle":
+				this.primitive = new MyTriangle(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7],this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]);
+				i+=11;
+				break;
+			case "rectangle":
+				this.primitive = new MyRectangle(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+				i+=6;
+				break;
+			case "cylinder":
+				this.primitive = new MyCylinder(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6]);
+				i+=7;
+				break;
+			case "sphere":
+				this.primitive = new MySphere(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4]);
+				i+=5;
+				break;
+			case "torus":
+				this.primitive = new MyTorus(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+				i+=6;
+				break;
+			default:
+				//no time for this right now
+				break;
+					 }
+		this.builtPrimitives.push(this.primitive);
+	}
+}
+
 XMLscene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -123,6 +157,7 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     
     this.initMaterials();
     this.initTextures();
+    this.initPrimitives();
 };
 
 XMLscene.prototype.display = function () {
