@@ -113,14 +113,15 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 	var illum=elems[0];
 	this.doublesided=this.reader.getBoolean(illum,'doublesided');
 	this.local=this.reader.getBoolean(illum,'local');
-	this.ambient_r=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'r');
-	this.ambient_g=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'g');
-	this.ambient_b=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'b');
-	this.ambient_a=this.reader.getFloat(illum.children[0].getElementsByTagName('ambient')[0],'a');
-	this.background_r=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'r');
-	this.background_g=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'g');
-	this.background_b=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'b');
-	this.background_a=this.reader.getFloat(illum.children[0].getElementsByTagName('background')[0],'a');
+	console.log(this.local);
+	this.ambient_r=illum.children[0].getAttribute('r');
+	this.ambient_g=illum.children[0].getAttribute('g');
+	this.ambient_b=illum.children[0].getAttribute('b');
+	this.ambient_a=illum.children[0].getAttribute('a');
+	this.background_r=illum.children[1].getAttribute('r');
+	this.background_g=illum.children[1].getAttribute('g');
+	this.background_b=illum.children[1].getAttribute('b');
+	this.background_a=illum.children[1].getAttribute('a');
 	
 };
 MySceneGraph.prototype.parseLights= function(rootElement){
