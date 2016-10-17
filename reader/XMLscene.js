@@ -188,7 +188,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-		this.graph.nodes['root'].display();
+		this.graph.nodes['root'].display(this, new CGFappearence(this), mat4.create());
 	};	
 };
 
