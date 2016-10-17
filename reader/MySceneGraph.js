@@ -168,28 +168,29 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		if(templight.tagName=='spot'){
 			this.scene.lightList.push('spot');
 			this.scene.lightList.push(templight.getAttribute('id'));
-			this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('spot')[0],'enabled'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('spot')[0],'angle')*Math.PI/180);
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('spot')[0],'exponent'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'x'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'y'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('target')[0],'z'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
-			this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+			this.scene.lightList.push(templight.getAttribute('enabled'));
+			this.scene.lightList.push(templight.getAttribute('angle')*Math.PI/180);
+			this.scene.lightList.push(templight.getAttribute('exponent'));
+			this.scene.lightList.push(templight.children[0].getAttribute('x'));
+			this.scene.lightList.push(templight.children[0].getAttribute('y'));
+			this.scene.lightList.push(templight.children[0].getAttribute('z'));
+			this.scene.lightList.push(templight.children[1].getAttribute('x'));
+			this.scene.lightList.push(templight.children[1].getAttribute('y'));
+			this.scene.lightList.push(templight.children[1].getAttribute('z'));
+			this.scene.lightList.push(templight.children[1].getAttribute('w'));
+			this.scene.lightList.push(templight.children[2].getAttribute('r'));
+			this.scene.lightList.push(templight.children[2].getAttribute('g'));
+			this.scene.lightList.push(templight.children[2].getAttribute('b'));
+			this.scene.lightList.push(templight.children[2].getAttribute('a'));
+			this.scene.lightList.push(templight.children[3].getAttribute('r'));
+			this.scene.lightList.push(templight.children[3].getAttribute('g'));
+			this.scene.lightList.push(templight.children[3].getAttribute('b'));
+			this.scene.lightList.push(templight.children[3].getAttribute('a'));
+			this.scene.lightList.push(templight.children[4].getAttribute('r'));
+			this.scene.lightList.push(templight.children[4].getAttribute('g'));
+			this.scene.lightList.push(templight.children[4].getAttribute('b'));
+			this.scene.lightList.push(templight.children[4].getAttribute('a'));
+			
 		}
 	
 
@@ -215,10 +216,10 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 		var temptexture=elems[0].children[i];
 		
 		
-		this.scene.textureList.push(temptexture.getAttribute('id'));
-		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'file'));
-		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_s'));
-		this.scene.textureList.push(this.reader.getString(temptexture.getElementsByTagName('texture')[0],'length_t'));
+		this.scene.texturesList.push(temptexture.getAttribute('id'));
+		this.scene.texturesList.push(temptexture.getAttribute('file'));
+		this.scene.texturesList.push(temptexture.getAttribute('length_s'));
+		this.scene.texturesList.push(temptexture.getAttribute('length_t'));
 	}	
 };
 
@@ -234,25 +235,30 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 	}
 	
 	var nmaterials=elems[0].children.length;
-	for (var i=0;i<ntextures;i++){
+	for (var i=0;i<nmaterials;i++){
 		
 		var tempmaterial=elems[0].children[i];
 		
 		
 		this.scene.materialList.push(tempmaterial.getAttribute('id'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'r'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'g'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'b'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('emission')[0],'a'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'r'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'g'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'b'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('ambient')[0],'a'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'r'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'g'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'b'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('diffuse')[0],'a'));
-		this.scene.materialList.push(this.reader.getFloat(tempmaterial.getElementsByTagName('shininess')[0],'value'));
+		this.scene.materialList.push(tempmaterial.children[0].getAttribute('r'));
+		this.scene.materialList.push(tempmaterial.children[0].getAttribute('g'));
+		this.scene.materialList.push(tempmaterial.children[0].getAttribute('b'));
+		this.scene.materialList.push(tempmaterial.children[0].getAttribute('a'));
+		this.scene.materialList.push(tempmaterial.children[1].getAttribute('r'));
+		this.scene.materialList.push(tempmaterial.children[1].getAttribute('g'));
+		this.scene.materialList.push(tempmaterial.children[1].getAttribute('b'));
+		this.scene.materialList.push(tempmaterial.children[1].getAttribute('a'));
+		this.scene.materialList.push(tempmaterial.children[2].getAttribute('r'));
+		this.scene.materialList.push(tempmaterial.children[2].getAttribute('g'));
+		this.scene.materialList.push(tempmaterial.children[2].getAttribute('b'));
+		this.scene.materialList.push(tempmaterial.children[2].getAttribute('a'));
+		this.scene.materialList.push(tempmaterial.children[3].getAttribute('r'));
+		this.scene.materialList.push(tempmaterial.children[3].getAttribute('g'));
+		this.scene.materialList.push(tempmaterial.children[3].getAttribute('b'));
+		this.scene.materialList.push(tempmaterial.children[3].getAttribute('a'));
+		
+		this.scene.materialList.push(tempmaterial.children[4].getAttribute('value'));
 	}
 	
 };
