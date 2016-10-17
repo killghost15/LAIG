@@ -160,7 +160,7 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     this.initTextures();
     this.initPrimitives();
 	
-	this.graph.nodes[this.graph["root"].display(this, new CGFappearance(this), mat4.create());
+	this.graph.nodes[0].display(this, new CGFappearance(this), mat4.create());
 };
 
 XMLscene.prototype.display = function () {
