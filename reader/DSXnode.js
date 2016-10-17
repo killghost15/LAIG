@@ -51,8 +51,8 @@ DSXnode.prototype.display = function (scene, material, M) {
     material = this.material;
   }
   if(this.children.length == 0){
-    for(var i = 0; i < builtPrimitives.length; i += 2){
-      if(this.primitive == builtPrimitives[i]){
+    for(var i = 0; i < scene.builtPrimitives.length; i += 2){
+      if(this.primitive == scene.builtPrimitives[i]){
         scene.pushMatrix();
         scene.multMatrix(this.trans_matrix);
         setActiveMaterial(material);

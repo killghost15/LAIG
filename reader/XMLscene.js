@@ -87,11 +87,11 @@ XMLscene.prototype.initPrimitives = function () {
 				i+=6;
 				break;
 			case "cylinder":
-				this.primitive = new MyCylinder(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6]);
+				this.primitive = new MyCylinder(this,this.primitiveList[i+5],this.primitiveList[i+6]);
 				i+=7;
 				break;
 			case "sphere":
-				this.primitive = new MySphere(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4]);
+				this.primitive = new MySphere(this,this.primitiveList[i+3],this.primitiveList[i+4]);
 				i+=5;
 				break;
 			case "torus":
@@ -188,7 +188,7 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-		this.graph.nodes['root'].display(this, new CGFappearence(this), mat4.create());
+		this.graph.nodes['root'].display(this, this.graph.nodes['root'].material, mat4.create());
 	};	
 };
 
