@@ -59,6 +59,7 @@ DSXnode.prototype.display = function (scene, material, M) {
         builtPrimitives[i+1].display();
         scene.popMatrix();
       }
+    }
   }else{
     for(var i = 0; i < this.children.length; i++;){
       this.children[i].display(scene, material, M);
