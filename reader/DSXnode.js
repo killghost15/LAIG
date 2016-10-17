@@ -32,11 +32,12 @@ DSXnode.prototype.setArgs = function (args) {
 };
 
 DSXnode.prototype.setActiveMaterial = function (material) {
-  for(var i = 0; i < scene.materialList.length; i += 2){
-    if(this.material == scene.materialList[i]){
-      for(var j = 0; j < scene.texturesList.length; j += 4){
+  for(var i = 0; i < scene.builtMaterials.length; i += 2){
+    if(this.material == scene.builtMaterials[i]){
+      for(var j = 0; j < scene.builtTextures.length; j += 4){
         if(this.texture == scene.texturesList[j]){
-          scene.materialList[m_index].setTexture(scene.texturesList[j+1]);
+          scene.materialList[i+1].setTexture(scene.builtTextures[j+1]);
+          scene.materialList[i+1].apply();
         }
       }
     }
@@ -49,11 +50,15 @@ DSXnode.prototype.display = function (scene, material, M) {
   if(this.material != "inherit"){
     material = this.material;
   }
-  setActiveMaterial(material);
   if(this.children.length == 0){
-    scene.pushMatrix();
-    scene.multMatrix(this.trans_matrix);
-    //Check primitive, give it a mat and tex then draw
+    for(var i = 0; i < builtPrimitives.length; i += 2){
+      if(this.primitive == builtPrimitives[i]){
+        scene.pushMatrix();
+        scene.multMatrix(this.trans_matrix);
+        setActiveMaterial(material);
+        builtPrimitives[i+1].display();
+        scene.popMatrix();
+      }
   }else{
     for(var i = 0; i < this.children.length; i++;){
       this.children[i].display(scene, material, M);
