@@ -38,7 +38,7 @@ XMLscene.prototype.init = function (application) {
 };
 
 XMLscene.prototype.initLights = function () {
-	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
+	
 	
 	
 	for(var u=0; u<this.lights.length ; u++){
@@ -117,6 +117,7 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
+	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
 	 this.camera = new CGFcamera(this.perspectiveList[3]*Math.PI/180, this.perspectiveList[1], this.perspectiveList[2], vec3.fromValues(this.perspectiveList[4], this.perspectiveList[5], this.perspectiveList[6]), vec3.fromValues(this.perspectiveList[7], this.perspectiveList[8], this.perspectiveList[9]));
 	this.gl.clearColor(this.graph.background_r,this.graph.background_g,this.graph.background_b,this.graph.background_a);
 	/*this.lights[0].setVisible(true);
