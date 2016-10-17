@@ -7,6 +7,7 @@ function XMLscene() {
     this.primitiveList=[];
     this.lightList=[];
     this.texturesList=[];
+    this.builtTextures=[];
     
     this.perspectiveList=[];
     
@@ -61,6 +62,16 @@ XMLscene.prototype.initMaterials = function() {
   }
 }
 
+XMLscene.prototype.initTextures = function () {
+  for(var i = 0; i < this.texturesList.length; i += 4){
+    this.builtTextures.push(this.texturesList[i]);
+    this.texture = new CGFtexture(this, this.texturesList[i+1]);
+    this.builtTextures.push(this.texture);
+    this.builtTextures.push(this.texturesList[i+2]);
+    this.builtTextures.push(this.texturesList[i+3]);
+  }
+};
+
 XMLscene.prototype.setDefaultAppearance = function () {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -110,6 +121,7 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     }
     
     this.initMaterials();
+    this.initTextures();
 };
 
 XMLscene.prototype.display = function () {
