@@ -159,6 +159,8 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     this.initMaterials();
     this.initTextures();
     this.initPrimitives();
+	
+	this.graph.nodes[this.graph["root"].display(this, new CGFappearance(this), mat4.create());
 };
 
 XMLscene.prototype.display = function () {
@@ -188,7 +190,6 @@ XMLscene.prototype.display = function () {
 	if (this.graph.loadedOk)
 	{
 		this.lights[0].update();
-		this.graph.nodes['root'].display(this, this.graph.nodes['root'].material, mat4.create());
 	};	
 };
 
