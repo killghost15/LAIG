@@ -61,7 +61,7 @@ DSXnode.prototype.display = function (scene, material, M) {
       }
     }
   }else{
-    for(var i = 0; i < this.children.length; i++;){
+    for(var i = 0; i < this.children.length; i++){
       this.children[i].display(scene, material, M);
     }
   }
