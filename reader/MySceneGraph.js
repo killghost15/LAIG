@@ -113,7 +113,7 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 	var illum=elems[0];
 	this.doublesided=this.reader.getBoolean(illum,'doublesided');
 	this.local=this.reader.getBoolean(illum,'local');
-	console.log(this.local);
+	
 	this.ambient_r=illum.children[0].getAttribute('r');
 	this.ambient_g=illum.children[0].getAttribute('g');
 	this.ambient_b=illum.children[0].getAttribute('b');
@@ -143,26 +143,26 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		
 		if(templight.tagName=='omni'){
 		this.scene.lightList.push('omni');
-		this.scene.lighList.push(templight.getAttribute('id'));
+		this.scene.lightList.push(templight.getAttribute('id'));
 		
 		
-		this.scene.lightList.push(this.reader.getBoolean(templight.getElementsByTagName('omni')[0],'enabled'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'x'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'y'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'z'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('location')[0],'w'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'r'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'g'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'b'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('ambient')[0],'a'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'r'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'g'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'b'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('diffuse')[0],'a'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'r'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'g'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'b'));
-		this.scene.lightList.push(this.reader.getFloat(templight.getElementsByTagName('specular')[0],'a'));
+		this.scene.lightList.push(templight.getAttribute('enabled'));
+		this.scene.lightList.push(templight.children[0].getAttribute('x'));
+		this.scene.lightList.push(templight.children[0].getAttribute('y'));
+		this.scene.lightList.push(templight.children[0].getAttribute('z'));
+		this.scene.lightList.push(templight.children[0].getAttribute('w'));
+		this.scene.lightList.push(templight.children[1].getAttribute('r'));
+		this.scene.lightList.push(templight.children[1].getAttribute('g'));
+		this.scene.lightList.push(templight.children[1].getAttribute('b'));
+		this.scene.lightList.push(templight.children[1].getAttribute('a'));
+		this.scene.lightList.push(templight.children[2].getAttribute('r'));;
+		this.scene.lightList.push(templight.children[2].getAttribute('g'));
+		this.scene.lightList.push(templight.children[2].getAttribute('b'));
+		this.scene.lightList.push(templight.children[2].getAttribute('a'));
+		this.scene.lightList.push(templight.children[3].getAttribute('r'));
+		this.scene.lightList.push(templight.children[3].getAttribute('g'));
+		this.scene.lightList.push(templight.children[3].getAttribute('b'));
+		this.scene.lightList.push(templight.children[3].getAttribute('a'));
 	}
 		
 		if(templight.tagName=='spot'){
