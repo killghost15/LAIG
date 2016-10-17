@@ -34,7 +34,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	error = this.parseTextures(rootElement);
 	error = this.parseMaterials(rootElement);
 	error = this.parseTransformations(rootElement);
-	error = this.parsePrimitves(rootElement);
+	error = this.parsePrimitives(rootElement);
 	error=this.parseComponents(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
@@ -283,19 +283,20 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		var temptransformation=elems[0].children[i];
 		
 		this.transf_matrix = mat4.clone(mat4.create());
-		this.id=temptransformation.getAttribute('id');
-		this.scene.transformationList.push(this.id);
+		this.scene.trasnformationList.push(temptransformation.getAttribute('id'));
+		for(var j=0;j<temptransformation.children.length;j++){
 		//#TODO n sei se funciona adicionar o entendimento de q pode haver vários translates seguidos logo tem de ter um for()
-		if(temptransformation.getElementsByTagName('translate')[0]=='translate'){
-			this.transl[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'x'));
-			this.transl[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'y'));
-			this.transl[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('translate')[0],'z'));
-			mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+		if(temptransformation.children[j].tagName=='translate'){
+			this.transl[0]=(temptransformation.children[j].getAttribute('x'));
+			
+			this.transl[1]=(temptransformation.children[j].getAttribute('y'));
+			this.transl[2]=(temptransformation.children[j].getAttribute('z'));
+			mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.transl[2]])
 			
 		}
-		if(temptransformation.getElementsByTagName('rotate')[0]=='rotate'){
-			this.rot[0]=(this.reader.getString(temptransformation.getElementsByTagName('rotate')[0],'axis'));
-			this.rot[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('rotate')[0],'angle'));
+		if(temptransformation.children[j].tagName=='rotate'){
+			this.rot[0]=(temptransformation.children[j].getAttribute('axis'));
+			this.rot[1]=(temptransformation.children[j].getAttribute('angle'));
 			if(this.rot[1]=='x')
 			mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[1,0,0]);
 			
@@ -306,15 +307,15 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 			mat4.rotate(this.transf_matrix, this.transf_matrix,this.rot[1]*Math.PI/180,[0,0,1]);
 		}
 		
-		if(temptransformation.getElementsByTagName('scale')[0]=='scale'){
-			this.scale[0]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'x'));
-			this.scale[1]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'y'));
-			this.scale[2]=(this.reader.getFloat(temptransformation.getElementsByTagName('scale')[0],'z'));
-			mat4.scale(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.trans[2]])
+		if(temptransformation.children[j].tagName=='scale'){
+			this.scale[0]=(temptransformation.children[j].getAttribute('x'));
+			this.scale[1]=(temptransformation.children[j].getAttribute('y'));
+			this.scale[2]=(temptransformation.children[j].getAttribute('z'));
+			mat4.scale(this.transf_matrix, this.transf_matrix, [this.scale[0], this.scale[1], this.scale[2]])
 			
 		}
 		
-		
+		}
 		
 		this.scene.trasnformationList.push(this.transf_matrix);
 		
@@ -337,48 +338,48 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		
 		var temprimitive=elems[0].children[i];
 		
-		this.scene.primitivesList.push(temprimitive.getAttribute('id'));
+		this.scene.primitiveList.push(temprimitive.getAttribute('id'));
 		//#TODO testar as primitivas
 		if(temprimitive.getElementsByTagName('cylinder').length!=0){
-		this.scene.primitivesList.push("cylinder");
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
+		this.scene.primitiveList.push("cylinder");
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
+		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'slices'));
+		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('cylinder')[0],'stack'));
 		}
 		
 		if(temprimitive.getElementsByTagName('rectangle').length!=0){
-		this.scene.primitivesList.push("rectangle");
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
+		this.scene.primitiveList.push("rectangle");
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
 		}
 		if(temprimitive.getElementsByTagName('triangle').length!=0){
-			this.scene.primitivesList.push("triangle");
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
+			this.scene.primitiveList.push("triangle");
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x2'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y2'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z2'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x3'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y3'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
 		}
 		if(temprimitive.getElementsByTagName('sphere').length!=0){
-			this.scene.primitivesList.push("sphere");
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
+			this.scene.primitiveList.push("sphere");
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
+		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
+		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
 		}
 		if(temprimitive.getElementsByTagName('torus').length!=0){
-			this.scene.primitivesList.push("torus");
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
-		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
-		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
+			this.scene.primitiveList.push("torus");
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
+		this.scene.primitiveList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
+		this.scene.primitiveList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
+		this.scene.primitivsList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'loops'));
 		}
 		
 		
