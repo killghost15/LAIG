@@ -85,7 +85,7 @@
 
 
     <components>
-    	<component id="planet-tatooine">
+    	<component id="root">
         
             <!-- bloco "transformation" obrigatorio -->
             <transformation>

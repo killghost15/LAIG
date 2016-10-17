@@ -331,7 +331,7 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		this.scene.primitivesList.push(temprimitive.getAttribute('id'));
 		//#TODO testar as primitivas
 		if(temprimitive.getElementsByTagName('cylinder').length!=0){
-		
+		this.scene.primitivesList.push("cylinder");
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'base'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'top'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('cylinder')[0],'height'));
@@ -340,12 +340,14 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		}
 		
 		if(temprimitive.getElementsByTagName('rectangle').length!=0){
+		this.scene.primitivesList.push("rectangle");
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x1'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y1'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'x2'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('rectangle')[0],'y2'));
 		}
 		if(temprimitive.getElementsByTagName('triangle').length!=0){
+			this.scene.primitivesList.push("triangle");
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'x1'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'y1'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z1'));
@@ -357,11 +359,13 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('triangle')[0],'z3'));
 		}
 		if(temprimitive.getElementsByTagName('sphere').length!=0){
+			this.scene.primitivesList.push("sphere");
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('sphere')[0],'radius'));
 		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'slices'));
 		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('sphere')[0],'stacks'));
 		}
 		if(temprimitive.getElementsByTagName('torus').length!=0){
+			this.scene.primitivesList.push("torus");
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'inner'));
 		this.scene.primitivesList.push(this.reader.getFloat(temprimitive.getElementsByTagName('torus')[0],'outer'));
 		this.scene.primitivesList.push(this.reader.getInteger(temprimitive.getElementsByTagName('torus')[0],'slices'));
