@@ -28,7 +28,8 @@ MySceneGraph.prototype.onXMLReady=function()
 
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
-	error= this.parseViews(rootElement);
+	error = this.parseGlobals(rootElement);
+	error = this.parseViews(rootElement);
 	error = this.parseIllumination(rootElement);
 	error = this.parseLights(rootElement);
 	error = this.parseTextures(rootElement);
@@ -202,18 +203,24 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 MySceneGraph.prototype.parseTextures= function(rootElement){
 	var elems =  rootElement.getElementsByTagName('textures');
 	if (elems == null) {
-		return "textures element is missing.";
+		return "\"textures\" element is missing.";
 	}
 
-	if (elems.length < 1) {
-		return "not enough 'textures' element found.";
+	if (elems.length != 1) {
+		return "More than one \"textures\" element found";
 	}
 
+	this.scene.textures = [];
 	var ntextures=elems[0].children.length;
 	for (var i=0;i<ntextures;i++){
-
 		var temptexture=elems[0].children[i];
 
+		if(this.scene.textures[temptexture] != undefined) {
+			console.log("Duplicate texture found: " + temptexture);
+		}
+		else {
+			this.scene.textures[temptexture.id] = parseTexture(temptexture);
+		}
 
 		this.scene.texturesList.push(temptexture.getAttribute('id'));
 		this.scene.texturesList.push(temptexture.getAttribute('file'));
@@ -222,44 +229,74 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 	}
 };
 
+MySceneGraph.prototype.parseTexture = function (element) {
+	var texture = [];
+
+	texture['file'] = this.reader.getString(element.children[0], 'file', true);
+	texture['texture'] = new CGFtexture(this.scene, texture['file']);
+	texture['dimensions'] = this.parseDimentions(element.children[0]);
+};
 
 MySceneGraph.prototype.parseMaterials= function(rootElement){
 	var elems =  rootElement.getElementsByTagName('materials');
 	if (elems == null) {
-		return "materials element is missing.";
+		return "\"materials\" element is missing.";
+	}
+	else if (elems.length != 1) {
+		return "More than one \"materials\" element found";
 	}
 
-	if (elems.length < 1) {
-		return "not enough 'materials' element found.";
-	}
-
+	this.scene.materials = [];
 	var nmaterials=elems[0].children.length;
 	for (var i=0;i<nmaterials;i++){
-
 		var tempmaterial=elems[0].children[i];
 
-
-		this.scene.materialList.push(tempmaterial.getAttribute('id'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('a'));
-
-		this.scene.materialList.push(tempmaterial.children[4].getAttribute('value'));
+		if(this.scene.materials != undefined) {
+			console.log ("Duplicate material: " + tempmaterial);
+		}
+		else {
+			this.scene.materials[tempmaterial.id] = parseMaterial(tempmaterial);
+		}
 	}
+};
 
+MySceneGraph.prototype.parseMaterial = function (element) {
+	var material_attrs[];
+
+	material_attrs['emission'] = this.reader.parseColor(element.children[0]);
+	material_attrs['ambient'] = this.reader.parseColor(element.children[1]);
+	material_attrs['diffuse'] = this.reader.parseColor(element.children[2]);
+	material_attrs['specular'] = this.reader.parseColor(element.children[3]);
+	material_attrs['shininess'] = this.reader.getFloat(element.children[4], 'value', true);
+
+	var material = new CGFAppearance(this.scene);
+	material.setEmission(
+		material_attrs['emission'].r,
+		material_attrs['emission'].g,
+		material_attrs['emission'].b,
+		material_attrs['emission'].a
+	);
+	material.setAmbient(
+		material_attrs['ambient'].r,
+		material_attrs['ambient'].g,
+		material_attrs['ambient'].b,
+		material_attrs['ambient'].a
+	);
+	material.setDiffuse(
+		material_attrs['diffuse'].r,
+		material_attrs['diffuse'].g,
+		material_attrs['diffuse'].b,
+		material_attrs['diffuse'].a
+	);
+	material.setEmission(
+		material_attrs['specular'].r,
+		material_attrs['specular'].g,
+		material_attrs['specular'].b,
+		material_attrs['specular'].a
+	);
+	material.setShininess(
+		material_attrs['shininess']
+	);
 };
 
 //#TODO Mudar isto pra interpretar como matriz e multiplicar
@@ -486,7 +523,14 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 
 };
 
-
+MySceneGraph.prototype.parseColor = function(element) {
+	var colors = new Object();
+	colors.r = this.reader.getFloat(element, 'r');
+	colors.g = this.reader.getFloat(element, 'g');
+	colors.b = this.reader.getFloat(element, 'b');
+	colors.a = this.reader.getFloat(element, 'a');
+	return colors;
+}
 
 /*
 * Callback to be executed on any read error
