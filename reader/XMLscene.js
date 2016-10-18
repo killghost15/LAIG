@@ -9,7 +9,7 @@ function XMLscene() {
     this.lightList=[];
     this.texturesList=[];
     this.builtTextures=[];
-    
+    this.nlights=0;
     this.perspectiveList=[];
     
     
@@ -40,11 +40,11 @@ XMLscene.prototype.init = function (application) {
 XMLscene.prototype.initLights = function () {
 	
 	
-	
+	/*
 	for(var u=0; u<this.lights.length ; u++){
 		this.lights[u].setVisible(true);
 		this.lights[u].update();
-	}
+	}*/
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -118,14 +118,15 @@ XMLscene.prototype.setDefaultAppearance = function () {
 XMLscene.prototype.onGraphLoaded = function () 
 {
 	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
-	 this.camera = new CGFcamera(this.perspectiveList[3]*Math.PI/180, this.perspectiveList[1], this.perspectiveList[2], vec3.fromValues(this.perspectiveList[4], this.perspectiveList[5], this.perspectiveList[6]), vec3.fromValues(this.perspectiveList[7], this.perspectiveList[8], this.perspectiveList[9]));
+	// this.camera = new CGFcamera(this.perspectiveList[3]*Math.PI/180, this.perspectiveList[1], this.perspectiveList[2], vec3.fromValues(this.perspectiveList[4], this.perspectiveList[5], this.perspectiveList[6]), vec3.fromValues(this.perspectiveList[7], this.perspectiveList[8], this.perspectiveList[9]));
 	this.gl.clearColor(this.graph.background_r,this.graph.background_g,this.graph.background_b,this.graph.background_a);
 	/*this.lights[0].setVisible(true);
     this.lights[0].enable();*/
-this.axis=new CGFaxis(this,this.graph.axis_length);
+    this.axis=new CGFaxis(this,this.graph.axis_length);
 
 
-    for(var i=0,j=0;i< this.lightList.length;j++){
+    for(var i=0,j=0;i< this.lightList.length;){
+
     	if(this.lightList[i]=="omni"){
     	if(this.lightList[i+2]==true){
     	this.lights[j].enable()
@@ -134,8 +135,12 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
     	this.lights[j].setAmbient(this.lightList[i+7],this.lightList[i+8],this.lightList[i+9],this.lightList[i+10]);
     	this.lights[j].setDiffuse(this.lightList[i+11],this.lightList[i+12],this.lightList[i+13],this.lightList[i+14]);
     	this.lights[j].setSpecular(this.lightList[i+15],this.lightList[i+16],this.lightList[i+17],this.lightList[i+18]);
+        i+=19;
+        j++;
+
     	
     }
+   
     	if(this.lightList[i]=="spot"){
         	if(this.lightList[i+2]==true){
         	this.lights[j].enable()
@@ -147,20 +152,20 @@ this.axis=new CGFaxis(this,this.graph.axis_length);
         	this.lights[j].setAmbient(this.lightList[i+12],this.lightList[i+13],this.lightList[i+14],this.lightList[i+15]);
         	this.lights[j].setDiffuse(this.lightList[i+16],this.lightList[i+17],this.lightList[i+18],this.lightList[i+19]);
         	this.lights[j].setSpecular(this.lightList[i+20],this.lightList[i+21],this.lightList[i+22],this.lightList[i+23]);
+            i+=24;
+            j++;
         	
         }
-    	if(this.lightList[i]=="omni")
-    		i+=19;
-    	if(this.lightList[i]=="spot")
-    		i+=24;
+    	
     	
     }
+    this.nlights=j;
     
     this.initMaterials();
     this.initTextures();
     this.initPrimitives();
 	
-	this.graph.nodes[0].display(this, new CGFappearance(this), mat4.create());
+	this.graph.nodes['root'].display(this, this.graph.nodes['root'].material, mat4.create());
 };
 
 XMLscene.prototype.display = function () {
@@ -189,7 +194,11 @@ XMLscene.prototype.display = function () {
 	// This is one possible way to do it
 	if (this.graph.loadedOk)
 	{
-		this.lights[0].update();
+		for(var u=0; u<this.nlights; u++){
+        this.lights[u].setVisible(true);
+        this.lights[u].update();
+    }
+
 	};	
 };
 
