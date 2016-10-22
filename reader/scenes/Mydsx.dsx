@@ -34,7 +34,7 @@
             <location x="3" y="3" z="3" w="0" />
             <ambient r="0.3" g="0.3" b="0.3" a="0.3" />
             <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0.7" g="0.7" b="0.5" a="1" />
+            <specular r="0" g="0" b="0" a="1" />
         </spot>
 
     </lights>
@@ -56,6 +56,13 @@
             <ambient r="1" g="0" b="0" a="0" /> 
             <diffuse r="0" g="0" b="0" a="0" />
             <specular r="0" g="1" b="0.3" a="1" />
+            <shininess value="10" />
+        </material>
+        <material id="material2" >
+            <emission r="0" g="0" b="0" a="1" />
+            <ambient r="" g="0" b="1" a="0" /> 
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="03" b="0.3" a="1" />
             <shininess value="10" />
         </material>
     </materials>
@@ -138,7 +145,7 @@
        
             
             <materials>
-                <material id="inherit" />
+                <material id="material2" />
             </materials>
                          
               
@@ -172,7 +179,7 @@
        
             
             <materials>
-                <material id="inherit" />
+                <material id="material2" />
             </materials>
                          
               

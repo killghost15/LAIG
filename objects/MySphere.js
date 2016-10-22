@@ -13,7 +13,8 @@ MySphere.prototype.constructor=MySphere;
 MySphere.prototype.display=function(){
 this.scene.pushMatrix();
 this.top.display();
-this.scene.scale(1,-1,1);
+//this.scene.translate(0,-1,0);
+this.scene.scale(-1,1,-1);
 this.down.display();
 this.scene.popMatrix();
 
