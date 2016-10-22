@@ -40,7 +40,7 @@ DSXnode.prototype.setActiveMaterial = function (material) {
       
         if(this.texture == this.cena.builtTextures[j]){
 
-        console.log(material);
+       
         
          this.cena.builtMaterials[i+1].setTexture(this.cena.builtTextures[j+1]);
        
@@ -72,7 +72,7 @@ DSXnode.prototype.display = function (scene, material, M) {
   
     for(var i = 0; i < this.children.length; i++){
     scene.pushMatrix();
-    console.log(this.children.length);
+    
       scene.graph.nodes[this.children[i]].display(scene,material,scene.graph.nodes[this.children[i]].matrix);
       scene.popMatrix();
     }

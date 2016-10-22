@@ -106,7 +106,7 @@
         
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
-           <transformationref id="trans1"/> 
+            <transformationref id="trans1"/>
            <!-- <translate x="2" y="0" z="0"/> -->
 
               
@@ -145,7 +145,7 @@
                 <!-- declaradas anteriormente -->
               
                 
-                
+                <transformationref id="trans1"/>
                <!-- <translate x="3" y="0" z="3" />
                 
                 <scale x="0.2" y="0.2" z="0.2" /> -->

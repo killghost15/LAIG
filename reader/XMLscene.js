@@ -6,7 +6,7 @@ function XMLscene() {
     this.transformationList=[];
     this.primitiveList=[];
     this.builtPrimitives=[];
-    
+
     this.lightList=[];
     this.texturesList=[];
     this.builtTextures=[];
@@ -202,9 +202,10 @@ XMLscene.prototype.display = function () {
         this.lights[u].update();
 
 
-    }
+        
 
-     this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
+    }
+    this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
 
 
 	}
