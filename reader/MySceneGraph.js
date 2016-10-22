@@ -284,7 +284,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		var temptransformation=elems[0].children[i];
 		
 		this.transf_matrix = mat4.clone(mat4.create());
-		this.scene.trasnformationList.push(temptransformation.getAttribute('id'));
+		this.scene.transformationList.push(temptransformation.getAttribute('id'));
 		for(var j=0;j<temptransformation.children.length;j++){
 		//#TODO n sei se funciona adicionar o entendimento de q pode haver vários translates seguidos logo tem de ter um for()
 		if(temptransformation.children[j].tagName=='translate'){
@@ -318,7 +318,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		
 		}
 		
-		this.scene.trasnformationList.push(this.transf_matrix);
+		this.scene.transformationList.push(this.transf_matrix);
 		
 	}
 	
@@ -414,7 +414,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		else{
 			//cria o node e coloca o na lista de nodes q está idexada por ids
 		this.nodes[tempcomponent.id]=new DSXnode(this.scene);
-		
+		console.log(tempcomponent.id);
 		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
 	    this.nodes[tempcomponent.id].setMaterial(tempcomponent.children[1].children[0].getAttribute('id'));
 
@@ -424,7 +424,8 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
 	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
-	    	var transformationid=tempcomponent.children[1].children[0].getAttribute('id');
+	    	console.log("é uma transformationref");
+	    	var transformationid=tempcomponent.children[0].children[0].getAttribute('id');
 	    	for(var j=0;j<this.scene.transformationList.length;j++){
 	    		if(this.scene.transformationList[j]==transformationid){
 	    			this.nodes[tempcomponent.id].setMatrix(this.scene.transformationList[j+1]);

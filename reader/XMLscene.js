@@ -3,9 +3,10 @@ function XMLscene() {
     CGFscene.call(this);
     this.materialList=[];
     this.builtMaterials=[];
-    this.trasnformationList=[];
+    this.transformationList=[];
     this.primitiveList=[];
     this.builtPrimitives=[];
+    
     this.lightList=[];
     this.texturesList=[];
     this.builtTextures=[];
