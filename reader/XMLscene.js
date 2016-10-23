@@ -25,6 +25,7 @@ XMLscene.prototype.init = function (application) {
     this.initCameras();
 
     this.initLights();
+     this.enableTextures(true);
 
     
 	
@@ -53,13 +54,14 @@ XMLscene.prototype.initCameras = function () {
 };
 
 XMLscene.prototype.initMaterials = function() {
-  for(var i = 0; i < this.materialList.length; i+= 14){
+  for(var i = 0; i < this.materialList.length; i+= 18){
     this.builtMaterials.push(this.materialList[i]);
     this.material = new CGFappearance(this);
-    this.material.setEmission(this.materialList[i+1],this.materialList[i+2],this.materialList[i+3],this.materialList[i+4]);
-    this.material.setAmbient(this.materialList[i+5],this.materialList[i+6],this.materialList[i+7],this.materialList[i+8]);
-    this.material.setDiffuse(this.materialList[i+9],this.materialList[i+10],this.materialList[i+11],this.materialList[i+12]);
-    this.material.setShininess(this.materialList[i+13]);
+    this.material.setEmission(parseInt(this.materialList[i+1]),parseInt(this.materialList[i+2]),parseInt(this.materialList[i+3]),parseInt(this.materialList[i+4]));
+    this.material.setAmbient(parseInt(this.materialList[i+5]),parseInt(this.materialList[i+6]),parseInt(this.materialList[i+7],this.materialList[i+8]));
+    this.material.setDiffuse(parseInt(this.materialList[i+9]),parseInt(this.materialList[i+10]),parseInt(this.materialList[i+11]),parseInt(this.materialList[i+12]));
+    this.material.setSpecular(parseInt(this.materialList[i+13]),parseInt(this.materialList[i+14]),parseInt(this.materialList[i+15]),parseInt(this.materialList[i+16]));
+    this.material.setShininess(parseInt(this.materialList[i+17]));
     this.builtMaterials.push(this.material);
   }
 }
@@ -69,8 +71,9 @@ XMLscene.prototype.initTextures = function () {
     this.builtTextures.push(this.texturesList[i]);
     this.texture = new CGFtexture(this, this.texturesList[i+1]);
     this.builtTextures.push(this.texture);
-    this.builtTextures.push(this.texturesList[i+2]);
-    this.builtTextures.push(this.texturesList[i+3]);
+    console.log(this.texture);
+    this.builtTextures.push(parseInt(this.texturesList[i+2]));
+    this.builtTextures.push(parseInt(this.texturesList[i+3]));
   }
 };
 
@@ -206,9 +209,7 @@ XMLscene.prototype.display = function () {
 
     }
 
-    for (var i=0; i< this.builtPrimitives.length;i++){
-        console.log(this.builtPrimitives[i])
-    }
+
   this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
 
 

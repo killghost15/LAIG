@@ -206,7 +206,7 @@
        
             
             <materials>
-                <material id="material2" />
+                <material id="inherit" />
             </materials>
                          
               

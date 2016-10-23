@@ -417,8 +417,8 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    this.nodes[tempcomponent.id].setMaterial(tempcomponent.children[1].children[0].getAttribute('id'));
 
 		
-	    this.nodes[tempcomponent.id].setTexture(tempcomponent.children[2].getAttribute('id'));
-	    
+	    this.nodes[tempcomponent.id].setTex(tempcomponent.children[2].getAttribute('id'));
+	    console.log(this.nodes[tempcomponent.id].texture);
 	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
 	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
