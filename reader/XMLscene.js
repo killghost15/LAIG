@@ -202,10 +202,14 @@ XMLscene.prototype.display = function () {
         this.lights[u].update();
 
 
-        
+
 
     }
-    this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
+/*
+    for (var i=0; i< this.builtPrimitives.length;i++){
+        console.log(this.builtPrimitives[i])
+    }*/
+  this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
 
 
 	}

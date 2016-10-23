@@ -399,11 +399,9 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	if (elems.length < 1) {
 		return "not enough 'components' element found.";
 	}
-	this.transl=[];
-	this.rot=[];
-	this.scale=[];
+	
 	var nnodes=elems[0].children.length;
-	this.transf_matrix = mat4.clone(mat4.create());
+	
 	for (var i=0;i<nnodes;i++){
 		
 		var tempcomponent=elems[0].children[i];
@@ -414,7 +412,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		else{
 			//cria o node e coloca o na lista de nodes q está idexada por ids
 		this.nodes[tempcomponent.id]=new DSXnode(this.scene);
-		console.log(tempcomponent.id);
+		//console.log(tempcomponent.id +" material:"+ tempcomponent.children[1].children[0].getAttribute('id'));
 		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
 	    this.nodes[tempcomponent.id].setMaterial(tempcomponent.children[1].children[0].getAttribute('id'));
 
@@ -424,12 +422,11 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
 	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
-	    	console.log("é uma transformationref");
 	    	var transformationid=tempcomponent.children[0].children[0].getAttribute('id');
 	    	for(var j=0;j<this.scene.transformationList.length;j++){
 	    		if(this.scene.transformationList[j]==transformationid){
 	    			this.nodes[tempcomponent.id].setMatrix(this.scene.transformationList[j+1]);
-	    			console.log(this.nodes[tempcomponent.id].matrix);
+	    			
 	    		}
 	    	}
 	    	
@@ -437,6 +434,11 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    }
 	    //se não existir o transformationref vai ver se existe as transformações explicitas
 	    else{
+	    	this.transl=[];
+			this.rot=[];
+			this.scale=[];
+			this.transf_matrix = mat4.clone(mat4.create());
+
 	    	for(var j=0;j<tempcomponent.children[0].children.length;j++){
 	    	if(tempcomponent.children[0].children[j].tagName=='translate'){
 				this.transl[0]=(tempcomponent.children[0].children[j].getAttribute('x'));
@@ -444,6 +446,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 				this.transl[1]=(tempcomponent.children[0].children[j].getAttribute('y'));
 				this.transl[2]=(tempcomponent.children[0].children[j].getAttribute('z'));
 				mat4.translate(this.transf_matrix, this.transf_matrix, [this.transl[0], this.transl[1], this.transl[2]])
+
 				
 			}
 			if(tempcomponent.children[0].children[j].tagName=='rotate'){
@@ -468,7 +471,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			}
 			}
 			this.nodes[tempcomponent.id].setMatrix(this.transf_matrix);
-			console.log(this.nodes[tempcomponent.id].matrix);
+			
 	    }
 	   
 		
@@ -478,13 +481,14 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		var tempchildren=tempcomponent.children[3];
 		for(var k=0;k<tempchildren.children.length;){
 			if(tempchildren.children[k].tagName=='componentref'){
-				console.log(tempchildren.children[k].getAttribute('id'));
+				//console.log(tempchildren.children[k].getAttribute('id'));
 			this.nodes[tempcomponent.id].addChild(tempchildren.children[k].getAttribute('id'));
 			k++;
 		}
 			if(tempchildren.children[k].tagName=='primitiveref'){
-				console.log(tempchildren.children[k].getAttribute('id'));
+				//console.log(tempchildren.children[k].getAttribute('id'));
 				this.nodes[tempcomponent.id].setType(tempchildren.children[k].getAttribute('id'));
+				console.log(this.nodes[tempcomponent.id].primitive);
 				k++;
 			}
 			
