@@ -10,21 +10,21 @@
 
     <illumination doublesided="false" local="false" >
     
-        <ambient r="1" g="1" b="1" a="1" />
+        <ambient r="0" g="0" b="0" a="1" />
         <background r="0.3" g="0.3" b="0.3" a="1" />
         
     </illumination>
     <lights>
     	<omni id="light0" enabled="true" >
             <location x="1" y="1" z="1" w="0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="0.3" />
+            <ambient r="0" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
             <specular r="0.7" g="0.7" b="0.5" a="1" />
         </omni>
 
         <omni id="light3" enabled="true" >
             <location x="5" y="5" z="5" w="0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="0.3" />
+            <ambient r="0" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
             <specular r="0.7" g="0.7" b="0.5" a="1" />
         </omni>
@@ -32,9 +32,9 @@
         <spot id="light1" enabled="true" angle="50" exponent="1" >
             <target x="1" y="2" z="3" />
             <location x="3" y="3" z="3" w="0" />
-            <ambient r="0.3" g="0.3" b="0.3" a="0.3" />
+            <ambient r="0" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0" g="0" b="0" a="1" />
+            <specular r="0" g="0" b="1" a="1" />
         </spot>
 
     </lights>
@@ -62,7 +62,7 @@
             <emission r="0" g="0" b="0" a="1" />
             <ambient r="" g="0" b="1" a="0" /> 
             <diffuse r="0" g="0" b="0" a="0" />
-            <specular r="0" g="03" b="0.3" a="1" />
+            <specular r="0" g="0.6" b="1" a="1" />
             <shininess value="10" />
         </material>
     </materials>

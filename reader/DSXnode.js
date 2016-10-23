@@ -43,7 +43,7 @@ DSXnode.prototype.setActiveMaterial = function (material) {
           this.cena.builtMaterials[i+1].setTexture(this.cena.builtTextures[j+1]);
        
           this.cena.builtMaterials[i+1].apply();
-          console.log( this.cena.builtTextures[j+1]);
+          
         }
       }
     }

@@ -132,8 +132,9 @@ XMLscene.prototype.onGraphLoaded = function ()
     for(var i=0,j=0;i< this.lightList.length;){
 
     	if(this.lightList[i]=="omni"){
-    	if(this.lightList[i+2]==true){
-    	this.lights[j].enable()
+    	if(this.lightList[i+2]=="true"){
+    	this.lights[j].enable();
+        this.lights[j].setVisible(true);
     	}
     	this.lights[j].setPosition(this.lightList[i+3],this.lightList[i+4],this.lightList[i+5],this.lightList[i+6]);
     	this.lights[j].setAmbient(this.lightList[i+7],this.lightList[i+8],this.lightList[i+9],this.lightList[i+10]);
@@ -146,8 +147,10 @@ XMLscene.prototype.onGraphLoaded = function ()
     }
    
     	if(this.lightList[i]=="spot"){
-        	if(this.lightList[i+2]==true){
-        	this.lights[j].enable()
+        	if(this.lightList[i+2]=="true"){
+        	this.lights[j].enable();
+            this.lights[j].setVisible(true);
+
         	}
         	this.lights[j].setSpotCutOff(this.lightList[i+3]);
         	this.lights[j].setSpotExponent(this.lightList[i+4]);
@@ -186,7 +189,7 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	this.axis.display();
+	//this.axis.display();
 
 	this.setDefaultAppearance();
 
@@ -201,7 +204,7 @@ XMLscene.prototype.display = function () {
 
        
 		for(var u=0; u<this.nlights; u++){
-        this.lights[u].setVisible(true);
+       // this.lights[u].setVisible(true);
         this.lights[u].update();
 
 
