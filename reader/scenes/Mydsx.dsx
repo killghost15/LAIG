@@ -110,12 +110,14 @@
     <primitives>
     	<primitive id="planetsmall">
     	
-    	<sphere radius="2" slices="50" stacks="50" />
+    	   <sphere radius="2" slices="50" stacks="50" />
         
     	</primitive>
-    <primitive id="satteliteprim">
-     <cylinder base="0" top="2" height="2" slices="10" stacks="10" />
-     </primitive>
+
+        <primitive id="satteliteprim">
+            <cylinder base="0" top="2" height="2" slices="50" stacks="50" />
+        </primitive>
+
     </primitives>
     
 	<components>
@@ -197,9 +199,9 @@
               
                 
              
-               <translate x="5" y="0" z="5" />
+               <translate x="1" y="0" z="1" />
                 
-                <scale x="0.1" y="0.1" z="0.1" /> 
+            <scale x="0.1" y="0.1" z="0.5" /> 
             </transformation>
        
             
@@ -211,7 +213,7 @@
             <texture id="sattelitetex" />
             
             <children>
-                <primitiveref id="planetsmall" />
+                <primitiveref id="satteliteprim" />
                 
             </children>
             
