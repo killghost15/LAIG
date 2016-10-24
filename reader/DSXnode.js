@@ -55,7 +55,7 @@ DSXnode.prototype.changeMaterialNode=function(){
 	this.n+=1;
 	if(this.n>=this.materials.length)
 		this.n=0;
-	
+
 }
 DSXnode.prototype.display = function (scene, materialP, M) {
 
@@ -77,6 +77,9 @@ DSXnode.prototype.display = function (scene, materialP, M) {
 
     if(this.material == "inherit"){
     this.material = materialP;
+  }
+  if(this.material=="none"){
+  	this.material=null;
   }
   for(var j=0;j<this.primitives.length;j++){
     for(var i = 0; i <scene.builtPrimitives.length; i += 2){

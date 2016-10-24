@@ -10,6 +10,10 @@
             <from x="35.0" y="35.0" z="35.0" />
             <to x="10.0" y="10.0" z="10.0" />
         </perspective>
+        <perspective id="vista3" near="0.001" far="10000.0" angle="50.0">
+            <from x="20.0" y="5.0" z="12.0" />
+            <to x="0.0" y="0.0" z="0.0" />
+        </perspective>
 
 	 </views>
 
@@ -20,8 +24,8 @@
         
     </illumination>
     <lights>
-    	<omni id="light0" enabled="false" >
-            <location x="1" y="1" z="1" w="0" />
+    	<omni id="light0" enabled="true" >
+            <location x="1" y="2" z="1" w="0" />
             <ambient r="0" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
             <specular r="0.7" g="0.7" b="0.5" a="1" />
@@ -138,6 +142,9 @@
         </primitive>
          <primitive id="panel2">
             <rectangle x1="-2.5" y1="-1" x2="0" y2="1" />
+        </primitive>
+        <primitive id="UFO">
+            <triangle x1="1" y1="1" z1="1" x2="0" y2="0" z2="0" x3="0" y3="1" z3="0" />
         </primitive>
 
     </primitives>
@@ -265,12 +272,46 @@
             
             <children>
             
-              
+                <componentref id="UFO"/>
                 <primitiveref id="planetsmall" />
                 
             </children>
             
+        </component>
+        
+         <!-- estrela azul -->
+
+
+        <component id="UFO">
+        
+          
+            <transformation>
+            <scale x="0.3" y="0.3" z="0.3" />
+            <translate x="0.3" y="-2" z="0.3" />
+           
+            </transformation>
+       
+            
+            <materials>
+                <material id="material1" />
+            </materials>
+                         
+              
+            <texture id="sattelitetex" />
+            
+            <children>
+            
+                
+                <primitiveref id="UFO" />
+                
+            </children>
+            
         </component>   
+
+
+
+
+
     </components>
     
       

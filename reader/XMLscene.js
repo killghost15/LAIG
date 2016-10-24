@@ -58,6 +58,7 @@ XMLscene.prototype.initCameras = function () {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 };
 
+//method that takes the disorganized arguments in materialList where it was stored from DSX and creates CGFappearences with it ready to be applied 
 XMLscene.prototype.initMaterials = function() {
   for(var i = 0; i < this.materialList.length; i+= 18){
     this.builtMaterials.push(this.materialList[i]);
@@ -72,7 +73,7 @@ XMLscene.prototype.initMaterials = function() {
 }
 
 
-
+//method that takes the disorganized arguments in texturesList where it was stored from DSX and creates CGF Textures ready to be bound to materials
 XMLscene.prototype.initTextures = function () {
   for(var i = 0; i < this.texturesList.length; i += 4){
     this.builtTextures.push(this.texturesList[i]);
@@ -84,13 +85,15 @@ XMLscene.prototype.initTextures = function () {
   }
 };
 
+
+//method that takes the disorganized arguments in primitiveList and creates the primitives ready to be displayed Torus geometry not created
 XMLscene.prototype.initPrimitives = function () {
 	var i = 0;
 	while(i < this.primitiveList.length){
 		this.builtPrimitives.push(this.primitiveList[i]);
 		switch(this.primitiveList[i+1]){
 			case "triangle":
-				this.primitive = new MyTriangle(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7],this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]);
+				this.primitive = new MyTriangle(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7],this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]);
 				i+=11;
 				break;
 			case "rectangle":
@@ -123,12 +126,16 @@ XMLscene.prototype.setDefaultAppearance = function () {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);	
 };
+
+//changes material no keypressed m/M
 XMLscene.prototype.changeMaterial=function(){
     for(var i=0;i<this.Idnodes.length;i++){
         this.graph.nodes[this.Idnodes[i]].changeMaterialNode();
     }
 
 }
+
+//changes views on keypressed v/V
 XMLscene.prototype.changeView=function(){
     this.view+=10;
     if(this.view>=this.perspectiveList.length)
@@ -144,13 +151,16 @@ XMLscene.prototype.onGraphLoaded = function ()
 {
 	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
 
-	this.camera = new CGFcamera(this.perspectiveList[this.view+3], this.perspectiveList[this.view+1], this.perspectiveList[this.view+2], vec3.fromValues(this.perspectiveList[this.view+4], this.perspectiveList[this.view+5], this.perspectiveList[this.view+6]), vec3.fromValues(this.perspectiveList[this.view+7], this.perspectiveList[this.view+8], this.perspectiveList[this.view+9]));
+
+
+    //starts the camera on the first perspective and then changes on keypressed with value this.view 
+	//this.camera = new CGFcamera(this.perspectiveList[this.view+3], this.perspectiveList[this.view+1], this.perspectiveList[this.view+2], vec3.fromValues(this.perspectiveList[this.view+4], this.perspectiveList[this.view+5], this.perspectiveList[this.view+6]), vec3.fromValues(this.perspectiveList[this.view+7], this.perspectiveList[this.view+8], this.perspectiveList[this.view+9]));
+
 	this.gl.clearColor(this.graph.background_r,this.graph.background_g,this.graph.background_b,this.graph.background_a);
-	/*this.lights[0].setVisible(true);
-    this.lights[0].enable();*/
+	
     this.axis=new CGFaxis(this,this.graph.axis_length);
 
-
+//loads the lights 
     for(var i=0,j=0;i< this.lightList.length;){
 
     	if(this.lightList[i]=="omni"){

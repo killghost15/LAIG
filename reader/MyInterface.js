@@ -40,7 +40,7 @@ MyInterface.prototype.init = function(application) {
 	// e.g. this.option1=true; this.option2=false;
 	
 	for(var i=0 ;i< this.scene.luzes.length;i++){
-	group.add(this.scene, 'luzes[i]');
+	group.add(this.scene, 'luzes');
 }
 	this.gui.add(this.scene,'drawaxis');
 

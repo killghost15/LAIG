@@ -377,10 +377,10 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		}
 		if(temprimitive.children[0].tagName=='torus'){
 			this.scene.primitiveList.push("torus");
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('inner'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('outer'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
-		this.scene.primitivsList.push(temprimitive.children[0].getAttribute('loops'));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('inner')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('outer')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('slices')));
+		this.scene.primitivsList.push(parseFloat(temprimitive.children[0].getAttribute('loops')));
 		}
 		
 		
@@ -414,7 +414,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			//cria o node e coloca o na lista de nodes q está idexada por ids
 		this.nodes[tempcomponent.id]=new DSXnode(this.scene);
 		//console.log(tempcomponent.id +" material:"+ tempcomponent.children[1].children[0].getAttribute('id'));
-		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
+		//default é o primeiro logo elemento 0 do material dentro dos materials; 
 	    for(var k=0;k<tempcomponent.children[1].children.length;k++){
 	    this.nodes[tempcomponent.id].addMaterial(tempcomponent.children[1].children[k].getAttribute('id'));
 	   
@@ -422,7 +422,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		
 	    this.nodes[tempcomponent.id].setTex(tempcomponent.children[2].getAttribute('id'));
 	    
-	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
+	    //se existir um transformationref entra neste if; e depois vai procurar na lista de transformações o id igual e faz setmatrix neste nó com a matriz correspondente a esse id,que é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
 	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
 	    	var transformationid=tempcomponent.children[0].children[0].getAttribute('id');
@@ -496,7 +496,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			}
 			
 		}
-		//#TODO o q fazer com o primitiveref deve ser o drawtype digo eu mas onde vamos guardar este drawtype
+		
 		
 			
 		
