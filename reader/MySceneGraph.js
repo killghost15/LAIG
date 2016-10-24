@@ -27,6 +27,7 @@ MySceneGraph.prototype.onXMLReady=function()
 	
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
+	error=this.checkDSXBlocks(rootElement);
 	error =this.parseGlobals(rootElement);
 	error= this.parseViews(rootElement);
 	error = this.parseIllumination(rootElement);
@@ -48,7 +49,28 @@ MySceneGraph.prototype.onXMLReady=function()
 };
 
 
+MySceneGraph.prototype.checkDSXBlocks = function(rootElement) {
+	if(rootElement.children[0].tagName!="scene")
+		return "scene missing or out of order";
+	if(rootElement.children[1].tagName!="views")
+		return "views missing or out of order";
+	if(rootElement.children[2].tagName!="illumination");
+		return "illumination missing or out of order";
+	if(rootElement.children[3].tagName!="lights")
+		return "lights block missing or out of order";
+	if(rootElement.children[4].tagName!="textures")
+		return "textures block missing or out of order";
+	if(rootElement.children[5].tagName!="materials")
+		return "materials block missing or out of order";
+	if(rootElement.children[6].tagName!="transformations")
+		return "transformations block missing or out of order";
+	if(rootElement.children[7].tagName!="primitives")
+		return "primitives block missing or out of order";
+	if(rootElement.children[8].tagName!="components")
+		return "components block missing or out of order";
 
+	
+};
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */ 
@@ -132,8 +154,11 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		return "lights element is missing.";
 	}
 
-	if (elems.length < 1) {
+	if (elems.length != 1) {
 		return "not enough 'lights' element found.";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 light, not enough created";
 	}
 	
 	var nlights=elems[0].children.length;
@@ -207,8 +232,11 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 		return "textures element is missing.";
 	}
 
-	if (elems.length < 1) {
+	if (elems.length != 1) {
 		return "not enough 'textures' element found.";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 texture, not enough created";
 	}
 
 	var ntextures=elems[0].children.length;
@@ -232,7 +260,10 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 	}
 
 	if (elems.length < 1) {
-		return "not enough 'materials' element found.";
+		return "not enough materials element found";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 material, not enough created";
 	}
 	
 	var nmaterials=elems[0].children.length;
@@ -271,9 +302,12 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		return "transformations element is missing.";
 	}
 
-	/*if (elems.length < 1) {
-		return "not enough 'materials' element found.";
-	}*/
+	if (elems.length!= 1) {
+		return "not enough transformations element found";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 transformation block, not enough created";
+	}
 	this.transl=[];
 	this.rot=[];
 	this.scale=[];
@@ -330,8 +364,11 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		return "primitives element is missing.";
 	}
 
-	if (elems.length < 1) {
-		return "not enough 'primitives' element found.";
+	if (elems.length != 1) {
+		return "not enough primitives element found";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 primitive block, not enough created";
 	}
 	
 	var nprimitives=elems[0].children.length;
@@ -396,8 +433,11 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		return "components element is missing.";
 	}
 
-	if (elems.length < 1) {
-		return "not enough 'components' element found.";
+	if (elems.length != 1) {
+		return "not enough components element found";
+	}
+	if(elems[0].children.length<1){
+		return "requires at least 1 component, not enough created";
 	}
 	
 	var nnodes=elems[0].children.length;
