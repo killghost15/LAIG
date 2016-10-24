@@ -1,11 +1,13 @@
 function DSXnode(scene){
   this.children=[];
   this.texture;
+  this.materials=[];
   this.material;
-  this.primitive;
+  this.primitives=[];
   this.matrix=mat4.create();
   this.args=[];
   this.cena=scene;
+  this.n=0;
 }
 
 DSXnode.prototype.addChild = function (id) {
@@ -16,12 +18,12 @@ DSXnode.prototype.setTex = function (id) {
   this.texture = id;
 };
 
-DSXnode.prototype.setMaterial = function (id) {
-  this.material = id;
+DSXnode.prototype.addMaterial = function (id) {
+  this.materials.push(id);
 };
 
-DSXnode.prototype.setType = function (id) {
-  this.primitive = id;
+DSXnode.prototype.addType = function (id) {
+  this.primitives.push(id);
 };
 
 DSXnode.prototype.setMatrix = function (mat) {
@@ -49,12 +51,17 @@ DSXnode.prototype.setActiveMaterial = function (material) {
     }
   }
 };
-
+DSXnode.prototype.changeMaterialNode=function(){
+	this.n+=1;
+	if(this.n>=this.materials.length)
+		this.n=0;
+	
+}
 DSXnode.prototype.display = function (scene, materialP, M) {
 
   var trans_matrix = mat4.create();
   var boolean = true;
-  
+  this.material=this.materials[this.n];
   mat4.multiply(trans_matrix, this.matrix,M);
   scene.multMatrix(trans_matrix);
   
@@ -71,13 +78,14 @@ DSXnode.prototype.display = function (scene, materialP, M) {
     if(this.material == "inherit"){
     this.material = materialP;
   }
-  
+  for(var j=0;j<this.primitives.length;j++){
     for(var i = 0; i <scene.builtPrimitives.length; i += 2){
-      if(this.primitive == scene.builtPrimitives[i]){
+      if(this.primitives[j] == scene.builtPrimitives[i]){
         this.setActiveMaterial(this.material);
         scene.builtPrimitives[i+1].display();
         
       }
+  }
 
     }
   

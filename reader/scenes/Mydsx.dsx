@@ -2,10 +2,15 @@
 <dsx>
 	<scene root="root"  axis_length="5.0"/>
 	<views default="defaultview" >
-	 	<perspective id="vista1" near="0.01" far="1000.0" angle="45.0">
-            <from x="5.0" y="5.0" z="4.0" />
+	 	<perspective id="vista1" near="0.001" far="10000.0" angle="50.0">
+            <from x="15.0" y="15.0" z="15.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
+        <perspective id="vista2" near="0.001" far="10000.0" angle="350.0">
+            <from x="35.0" y="35.0" z="35.0" />
+            <to x="10.0" y="10.0" z="10.0" />
+        </perspective>
+
 	 </views>
 
     <illumination doublesided="false" local="false" >
@@ -15,26 +20,28 @@
         
     </illumination>
     <lights>
-    	<omni id="light0" enabled="true" >
+    	<omni id="light0" enabled="false" >
             <location x="1" y="1" z="1" w="0" />
             <ambient r="0" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
             <specular r="0.7" g="0.7" b="0.5" a="1" />
         </omni>
 
+<!-- esta luz está no centro do component "star"-->
+
         <omni id="light3" enabled="true" >
-            <location x="5" y="5" z="5" w="0" />
+            <location x="5.5" y="5" z="5.5" w="0" />
             <ambient r="0" g="0" b="0" a="0" />
-            <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0.7" g="0.7" b="0.5" a="1" />
+            <diffuse r="0" g="0" b="1" a="1" />
+            <specular r="0" g="0" b="1" a="1" />
         </omni>
 
         <spot id="light1" enabled="true" angle="50" exponent="1" >
             <target x="1" y="2" z="3" />
             <location x="3" y="3" z="3" w="0" />
-            <ambient r="0" g="0" b="0" a="0" />
+            <ambient r="0.5" g="0" b="0" a="0" />
             <diffuse r="0" g="0" b="0" a="1" />
-            <specular r="0" g="0" b="1" a="1" />
+            <specular r="1" g="0" b="1" a="1" />
         </spot>
 
     </lights>
@@ -45,6 +52,7 @@
    <texture id="tatooine" file="../resources/tatooine.png" length_s="1" length_t="1" /> 
    <texture id="moon" file="../resources/moon.png" length_s="1" length_t="1" /> 
    <texture id="sattelitetex" file="../resources/sattelite.png" length_s="1" length_t="1" />
+   <texture id="star" file="../resources/star.png" length_s="1" length_t="1" />
     
     </textures>
 
@@ -52,18 +60,25 @@
 
     <materials>
     	<material id="material1" >
-            <emission r="1" g="0.5" b="0.3" a="1" />
+            <emission r="0" g="0" b="0" a="1" />
             <ambient r="1" g="0" b="0" a="0" /> 
-            <diffuse r="0" g="0" b="0" a="0" />
-            <specular r="0" g="1" b="0.3" a="1" />
+            <diffuse r="1" g="0" b="0" a="0" />
+            <specular r="1" g="0" b="0.3" a="1" />
             <shininess value="10" />
         </material>
         <material id="material2" >
-            <emission r="0" g="0" b="0" a="1" />
-            <ambient r="" g="0" b="1" a="0" /> 
-            <diffuse r="0" g="0" b="0" a="0" />
+            <emission r="0" g="0" b="0.7" a="1" />
+            <ambient r="0" g="0" b="1" a="0" /> 
+            <diffuse r="0" g="0" b="1" a="0" />
             <specular r="0" g="0.6" b="1" a="1" />
             <shininess value="10" />
+        </material>
+         <material id="starm" >
+            <emission r="0" g="0" b="1" a="1" />
+            <ambient r="" g="0" b="0" a="0" /> 
+            <diffuse r="0" g="0" b="0" a="0" />
+            <specular r="0" g="0.6" b="0.7" a="1" />
+            <shininess value="100" />
         </material>
     </materials>
 
@@ -118,10 +133,17 @@
             <cylinder base="0" top="2" height="2" slices="50" stacks="50" />
         </primitive>
 
+        <primitive id="panel1">
+            <rectangle x1="0" y1="-1" x2="2.5" y2="1" />
+        </primitive>
+         <primitive id="panel2">
+            <rectangle x1="-2.5" y1="-1" x2="0" y2="1" />
+        </primitive>
+
     </primitives>
     
 	<components>
-    	<component id="root">
+        <component id="root">
         
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
@@ -145,6 +167,7 @@
                 <!-- deve existir uma ou mais tags "componentref" e/ou -->
                 <!-- "primitiveref", identificando outros -->
                 <!-- componentes ou primitivas -->
+                <componentref id="star" />
                 <componentref id="tatooine-moon" />
                 <componentref id="sattelite" />
                 <primitiveref id="planetsmall" />
@@ -173,6 +196,7 @@
             
             <materials>
                 <material id="material2" />
+                <material id="material1" />
             </materials>
                          
               
@@ -207,6 +231,7 @@
             
             <materials>
                 <material id="inherit" />
+                <material id="material2"/>
             </materials>
                          
               
@@ -214,11 +239,38 @@
             
             <children>
                 <primitiveref id="satteliteprim" />
-                
+                <primitiveref id="panel1"/>
+                <primitiveref id="panel2" />
             </children>
             
         </component>
+         <!-- estrela azul -->
+
+
+        <component id="star">
         
+          
+            <transformation>
+            <translate x="0" y="5" z="5" />
+            <scale x="1.1" y="1.1" z="1.1" />
+            </transformation>
+       
+            
+            <materials>
+                <material id="starm" />
+            </materials>
+                         
+              
+            <texture id="star" />
+            
+            <children>
+            
+              
+                <primitiveref id="planetsmall" />
+                
+            </children>
+            
+        </component>   
     </components>
     
       

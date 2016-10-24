@@ -88,15 +88,15 @@ MySceneGraph.prototype.parseViews= function(rootElement){
 		
 		var tempper=elems[0].children[i];
 		this.scene.perspectiveList.push(tempper.getAttribute('id'));
-		this.scene.perspectiveList.push(tempper.getAttribute('near'));
-		this.scene.perspectiveList.push(tempper.getAttribute('far'));
-		this.scene.perspectiveList.push(tempper.getAttribute('angle'));
-		this.scene.perspectiveList.push(tempper.children[0].getAttribute('x'));
-		this.scene.perspectiveList.push(tempper.children[0].getAttribute('y'));
-		this.scene.perspectiveList.push(tempper.children[0].getAttribute('z'));
-		this.scene.perspectiveList.push(tempper.children[1].getAttribute('x'));
-		this.scene.perspectiveList.push(tempper.children[1].getAttribute('y'));
-		this.scene.perspectiveList.push(tempper.children[1].getAttribute('z'));
+		this.scene.perspectiveList.push(parseFloat(tempper.getAttribute('near')));
+		this.scene.perspectiveList.push(parseFloat(tempper.getAttribute('far')));
+		this.scene.perspectiveList.push(parseFloat(tempper.getAttribute('angle'))*Math.PI/180);
+		this.scene.perspectiveList.push(parseFloat(tempper.children[0].getAttribute('x')));
+		this.scene.perspectiveList.push(parseFloat(tempper.children[0].getAttribute('y')));
+		this.scene.perspectiveList.push(parseFloat(tempper.children[0].getAttribute('z')));
+		this.scene.perspectiveList.push(parseFloat(tempper.children[1].getAttribute('x')));
+		this.scene.perspectiveList.push(parseFloat(tempper.children[1].getAttribute('y')));
+		this.scene.perspectiveList.push(parseFloat(tempper.children[1].getAttribute('z')));
 		
 	}
 };
@@ -115,14 +115,14 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 	this.doublesided=this.reader.getBoolean(illum,'doublesided');
 	this.local=this.reader.getBoolean(illum,'local');
 	
-	this.ambient_r=illum.children[0].getAttribute('r');
-	this.ambient_g=illum.children[0].getAttribute('g');
-	this.ambient_b=illum.children[0].getAttribute('b');
-	this.ambient_a=illum.children[0].getAttribute('a');
-	this.background_r=illum.children[1].getAttribute('r');
-	this.background_g=illum.children[1].getAttribute('g');
-	this.background_b=illum.children[1].getAttribute('b');
-	this.background_a=illum.children[1].getAttribute('a');
+	this.ambient_r=parseFloat(illum.children[0].getAttribute('r'));
+	this.ambient_g=parseFloat(illum.children[0].getAttribute('g'));
+	this.ambient_b=parseFloat(illum.children[0].getAttribute('b'));
+	this.ambient_a=parseFloat(illum.children[0].getAttribute('a'));
+	this.background_r=parseFloat(illum.children[1].getAttribute('r'));
+	this.background_g=parseFloat(illum.children[1].getAttribute('g'));
+	this.background_b=parseFloat(illum.children[1].getAttribute('b'));
+	this.background_a=parseFloat(illum.children[1].getAttribute('a'));
 	
 };
 MySceneGraph.prototype.parseLights= function(rootElement){
@@ -148,49 +148,49 @@ MySceneGraph.prototype.parseLights= function(rootElement){
 		
 		
 		this.scene.lightList.push(templight.getAttribute('enabled'));
-		this.scene.lightList.push(templight.children[0].getAttribute('x'));
-		this.scene.lightList.push(templight.children[0].getAttribute('y'));
-		this.scene.lightList.push(templight.children[0].getAttribute('z'));
-		this.scene.lightList.push(templight.children[0].getAttribute('w'));
-		this.scene.lightList.push(templight.children[1].getAttribute('r'));
-		this.scene.lightList.push(templight.children[1].getAttribute('g'));
-		this.scene.lightList.push(templight.children[1].getAttribute('b'));
-		this.scene.lightList.push(templight.children[1].getAttribute('a'));
-		this.scene.lightList.push(templight.children[2].getAttribute('r'));;
-		this.scene.lightList.push(templight.children[2].getAttribute('g'));
-		this.scene.lightList.push(templight.children[2].getAttribute('b'));
-		this.scene.lightList.push(templight.children[2].getAttribute('a'));
-		this.scene.lightList.push(templight.children[3].getAttribute('r'));
-		this.scene.lightList.push(templight.children[3].getAttribute('g'));
-		this.scene.lightList.push(templight.children[3].getAttribute('b'));
-		this.scene.lightList.push(templight.children[3].getAttribute('a'));
+		this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('x')));
+		this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('y')));
+		this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('z')));
+		this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('w')));
+		this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('r')));
+		this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('g')));
+		this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('b')));
+		this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('a')));
+		this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('r')));
+		this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('g')));
+		this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('b')));
+		this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('a')));
+		this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('r')));
+		this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('g')));
+		this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('b')));
+		this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('a')));
 	}
 		
 		if(templight.tagName=='spot'){
 			this.scene.lightList.push('spot');
 			this.scene.lightList.push(templight.getAttribute('id'));
 			this.scene.lightList.push(templight.getAttribute('enabled'));
-			this.scene.lightList.push(templight.getAttribute('angle')*Math.PI/180);
-			this.scene.lightList.push(templight.getAttribute('exponent'));
-			this.scene.lightList.push(templight.children[0].getAttribute('x'));
-			this.scene.lightList.push(templight.children[0].getAttribute('y'));
-			this.scene.lightList.push(templight.children[0].getAttribute('z'));
-			this.scene.lightList.push(templight.children[1].getAttribute('x'));
-			this.scene.lightList.push(templight.children[1].getAttribute('y'));
-			this.scene.lightList.push(templight.children[1].getAttribute('z'));
-			this.scene.lightList.push(templight.children[1].getAttribute('w'));
-			this.scene.lightList.push(templight.children[2].getAttribute('r'));
-			this.scene.lightList.push(templight.children[2].getAttribute('g'));
-			this.scene.lightList.push(templight.children[2].getAttribute('b'));
-			this.scene.lightList.push(templight.children[2].getAttribute('a'));
-			this.scene.lightList.push(templight.children[3].getAttribute('r'));
-			this.scene.lightList.push(templight.children[3].getAttribute('g'));
-			this.scene.lightList.push(templight.children[3].getAttribute('b'));
-			this.scene.lightList.push(templight.children[3].getAttribute('a'));
-			this.scene.lightList.push(templight.children[4].getAttribute('r'));
-			this.scene.lightList.push(templight.children[4].getAttribute('g'));
-			this.scene.lightList.push(templight.children[4].getAttribute('b'));
-			this.scene.lightList.push(templight.children[4].getAttribute('a'));
+			this.scene.lightList.push(parseFloat(templight.getAttribute('angle'))*Math.PI/180);
+			this.scene.lightList.push(parseFloat(templight.getAttribute('exponent')));
+			this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('x')));
+			this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('y')));
+			this.scene.lightList.push(parseFloat(templight.children[0].getAttribute('z')));
+			this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('x')));
+			this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('y')));
+			this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('z')));
+			this.scene.lightList.push(parseFloat(templight.children[1].getAttribute('w')));
+			this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('r')));
+			this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('g')));
+			this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('b')));
+			this.scene.lightList.push(parseFloat(templight.children[2].getAttribute('a')));
+			this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('r')));
+			this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('g')));
+			this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('b')));
+			this.scene.lightList.push(parseFloat(templight.children[3].getAttribute('a')));
+			this.scene.lightList.push(parseFloat(templight.children[4].getAttribute('r')));
+			this.scene.lightList.push(parseFloat(templight.children[4].getAttribute('g')));
+			this.scene.lightList.push(parseFloat(templight.children[4].getAttribute('b')));
+			this.scene.lightList.push(parseFloat(templight.children[4].getAttribute('a')));
 			
 		}
 	
@@ -219,8 +219,8 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 		
 		this.scene.texturesList.push(temptexture.getAttribute('id'));
 		this.scene.texturesList.push(temptexture.getAttribute('file'));
-		this.scene.texturesList.push(temptexture.getAttribute('length_s'));
-		this.scene.texturesList.push(temptexture.getAttribute('length_t'));
+		this.scene.texturesList.push(parseFloat(temptexture.getAttribute('length_s')));
+		this.scene.texturesList.push(parseFloat(temptexture.getAttribute('length_t')));
 	}	
 };
 
@@ -242,24 +242,24 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 		
 		
 		this.scene.materialList.push(tempmaterial.getAttribute('id'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[0].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[1].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[2].getAttribute('a'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('r'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('g'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('b'));
-		this.scene.materialList.push(tempmaterial.children[3].getAttribute('a'));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[0].getAttribute('r')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[0].getAttribute('g')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[0].getAttribute('b')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[0].getAttribute('a')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[1].getAttribute('r')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[1].getAttribute('g')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[1].getAttribute('b')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[1].getAttribute('a')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[2].getAttribute('r')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[2].getAttribute('g')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[2].getAttribute('b')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[2].getAttribute('a')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[3].getAttribute('r')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[3].getAttribute('g')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[3].getAttribute('b')));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[3].getAttribute('a')));
 		
-		this.scene.materialList.push(tempmaterial.children[4].getAttribute('value'));
+		this.scene.materialList.push(parseFloat(tempmaterial.children[4].getAttribute('value')));
 	}
 	
 };
@@ -343,37 +343,37 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		//#TODO testar as primitivas
 		if(temprimitive.children[0].tagName=='cylinder'){
 		this.scene.primitiveList.push("cylinder");
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('base'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('top'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('height'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('stacks'));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('base')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('top')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('height')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('slices')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('stacks')));
 		}
 		
 		if(temprimitive.children[0].tagName=='rectangle'){
 		this.scene.primitiveList.push("rectangle");
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x1'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y1'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x2'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y2'));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('x1')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('y1')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('x2')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('y2')));
 		}
 		if(temprimitive.children[0].tagName=='triangle'){
 		this.scene.primitiveList.push("triangle");
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x1'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y1'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z1'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x2'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y2'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z2'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('x3'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('y3'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('z3'));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('x1')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('y1')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('z1')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('x2')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('y2')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('z2')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('x3')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('y3')));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('z3')));
 		}
 		if(temprimitive.children[0].tagName=='sphere'){
 		this.scene.primitiveList.push("sphere");
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('radius'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('slices'));
-		this.scene.primitiveList.push(temprimitive.children[0].getAttribute('stacks'));
+		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('radius')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('slices')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('stacks')));
 		}
 		if(temprimitive.children[0].tagName=='torus'){
 			this.scene.primitiveList.push("torus");
@@ -405,6 +405,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	for (var i=0;i<nnodes;i++){
 		
 		var tempcomponent=elems[0].children[i];
+		this.scene.Idnodes.push(tempcomponent.id);
 		if(this.nodes[tempcomponent.id]!=undefined){
 			console.error("Node " + e + " already exists");
 		}
@@ -414,11 +415,13 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		this.nodes[tempcomponent.id]=new DSXnode(this.scene);
 		//console.log(tempcomponent.id +" material:"+ tempcomponent.children[1].children[0].getAttribute('id'));
 		//default é o primeiro logo elemento 0 do material dentro dos materials; será preciso procurar o ID na lista de materials asssim como o Texture
-	    this.nodes[tempcomponent.id].setMaterial(tempcomponent.children[1].children[0].getAttribute('id'));
-
+	    for(var k=0;k<tempcomponent.children[1].children.length;k++){
+	    this.nodes[tempcomponent.id].addMaterial(tempcomponent.children[1].children[k].getAttribute('id'));
+	   
+		}
 		
 	    this.nodes[tempcomponent.id].setTex(tempcomponent.children[2].getAttribute('id'));
-	    console.log(this.nodes[tempcomponent.id].texture);
+	    
 	    //se existir um transformationref entra neste if e depois vai procurar na lista de trasnformações o id igual e faz setmatrix neste nó com a matriz q é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
 	    if(tempcomponent.children[0].children[0].tagName=='transformationref'){
@@ -487,8 +490,8 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 		}
 			if(tempchildren.children[k].tagName=='primitiveref'){
 				//console.log(tempchildren.children[k].getAttribute('id'));
-				this.nodes[tempcomponent.id].setType(tempchildren.children[k].getAttribute('id'));
-				console.log(this.nodes[tempcomponent.id].primitive);
+				this.nodes[tempcomponent.id].addType(tempchildren.children[k].getAttribute('id'));
+				
 				k++;
 			}
 			

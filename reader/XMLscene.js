@@ -12,6 +12,9 @@ function XMLscene() {
     this.builtTextures=[];
     this.nlights=0;
     this.perspectiveList=[];
+
+    //used for iteration and changing of materials on key pressed m
+    this.Idnodes=[];
     
     
 }
@@ -25,7 +28,7 @@ XMLscene.prototype.init = function (application) {
     this.initCameras();
 
     this.initLights();
-     this.enableTextures(true);
+    this.enableTextures(true);
 
     
 	
@@ -35,8 +38,10 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-
+this.view=0;
 	this.axis=new CGFaxis(this);
+    this.drawaxis=true;
+    this.luzes=[];
 };
 
 XMLscene.prototype.initLights = function () {
@@ -66,12 +71,14 @@ XMLscene.prototype.initMaterials = function() {
   }
 }
 
+
+
 XMLscene.prototype.initTextures = function () {
   for(var i = 0; i < this.texturesList.length; i += 4){
     this.builtTextures.push(this.texturesList[i]);
     this.texture = new CGFtexture(this, this.texturesList[i+1]);
     this.builtTextures.push(this.texture);
-    console.log(this.texture);
+    
     this.builtTextures.push(parseInt(this.texturesList[i+2]));
     this.builtTextures.push(parseInt(this.texturesList[i+3]));
   }
@@ -87,7 +94,7 @@ XMLscene.prototype.initPrimitives = function () {
 				i+=11;
 				break;
 			case "rectangle":
-				this.primitive = new MyQuad(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+				this.primitive = new MyRectangle(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
 				i+=6;
 				break;
 			case "cylinder":
@@ -116,13 +123,28 @@ XMLscene.prototype.setDefaultAppearance = function () {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);	
 };
+XMLscene.prototype.changeMaterial=function(){
+    for(var i=0;i<this.Idnodes.length;i++){
+        this.graph.nodes[this.Idnodes[i]].changeMaterialNode();
+    }
+
+}
+XMLscene.prototype.changeView=function(){
+    this.view+=10;
+    if(this.view>=this.perspectiveList.length)
+        this.view=0;
+
+    this.camera = new CGFcamera(this.perspectiveList[this.view+3], this.perspectiveList[this.view+1], this.perspectiveList[this.view+2], vec3.fromValues(this.perspectiveList[this.view+4], this.perspectiveList[this.view+5], this.perspectiveList[this.view+6]), vec3.fromValues(this.perspectiveList[this.view+7], this.perspectiveList[this.view+8], this.perspectiveList[this.view+9]));
+
+}
 
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
 {
 	this.setGlobalAmbientLight(this.graph.ambient_r,this.graph.ambient_g,this.graph.ambient_b,this.graph.ambient_a);
-	// this.camera = new CGFcamera(this.perspectiveList[3]*Math.PI/180, this.perspectiveList[1], this.perspectiveList[2], vec3.fromValues(this.perspectiveList[4], this.perspectiveList[5], this.perspectiveList[6]), vec3.fromValues(this.perspectiveList[7], this.perspectiveList[8], this.perspectiveList[9]));
+
+	this.camera = new CGFcamera(this.perspectiveList[this.view+3], this.perspectiveList[this.view+1], this.perspectiveList[this.view+2], vec3.fromValues(this.perspectiveList[this.view+4], this.perspectiveList[this.view+5], this.perspectiveList[this.view+6]), vec3.fromValues(this.perspectiveList[this.view+7], this.perspectiveList[this.view+8], this.perspectiveList[this.view+9]));
 	this.gl.clearColor(this.graph.background_r,this.graph.background_g,this.graph.background_b,this.graph.background_a);
 	/*this.lights[0].setVisible(true);
     this.lights[0].enable();*/
@@ -135,6 +157,7 @@ XMLscene.prototype.onGraphLoaded = function ()
     	if(this.lightList[i+2]=="true"){
     	this.lights[j].enable();
         this.lights[j].setVisible(true);
+        this.luzes[this.lightList[i+1]]=true;
     	}
     	this.lights[j].setPosition(this.lightList[i+3],this.lightList[i+4],this.lightList[i+5],this.lightList[i+6]);
     	this.lights[j].setAmbient(this.lightList[i+7],this.lightList[i+8],this.lightList[i+9],this.lightList[i+10]);
@@ -150,6 +173,7 @@ XMLscene.prototype.onGraphLoaded = function ()
         	if(this.lightList[i+2]=="true"){
         	this.lights[j].enable();
             this.lights[j].setVisible(true);
+            this.luzes[this.lightList[i+1]]=true;
 
         	}
         	this.lights[j].setSpotCutOff(this.lightList[i+3]);
@@ -171,13 +195,14 @@ XMLscene.prototype.onGraphLoaded = function ()
     this.initMaterials();
     this.initTextures();
     this.initPrimitives();
-	
+
 };
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
 	
-	// Clear image and depth buffer everytime we update the scene
+	
+    // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
@@ -189,8 +214,9 @@ XMLscene.prototype.display = function () {
 	this.applyViewMatrix();
 
 	// Draw axis
-	//this.axis.display();
-
+    if(this.drawaxis==true){
+	this.axis.display();
+}
 	this.setDefaultAppearance();
 
 	
@@ -212,8 +238,7 @@ XMLscene.prototype.display = function () {
 
     }
 
-
-  this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
+    this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
 
 
 	}
