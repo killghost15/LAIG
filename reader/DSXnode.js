@@ -33,7 +33,7 @@ DSXnode.prototype.setMatrix = function (mat) {
 DSXnode.prototype.setArgs = function (args) {
   this.args = args;
 };
-
+//Função que faz a aplicação do material e da textura ao material
 DSXnode.prototype.setActiveMaterial = function (material) {
   for(var i = 0; i < this.cena.builtMaterials.length; i += 2){
     if(material == this.cena.builtMaterials[i]){
@@ -51,12 +51,14 @@ DSXnode.prototype.setActiveMaterial = function (material) {
     }
   }
 };
+// permite à interface mudar o material para o proximo da lista de materiais
 DSXnode.prototype.changeMaterialNode=function(){
 	this.n+=1;
 	if(this.n>=this.materials.length)
 		this.n=0;
 
 }
+//faz o display do node com a sua textura, material e matriz de acordo com os argumentos "none" ou "inherit" utiliza nenhum material ou o do pai respectivamente
 DSXnode.prototype.display = function (scene, materialP, M) {
 
   var trans_matrix = mat4.create();

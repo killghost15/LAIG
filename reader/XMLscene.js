@@ -6,16 +6,16 @@ function XMLscene() {
     this.transformationList=[];
     this.primitiveList=[];
     this.builtPrimitives=[];
-
+    this.animationList=[];
     this.lightList=[];
     this.texturesList=[];
     this.builtTextures=[];
     this.nlights=0;
     this.perspectiveList=[];
+    this.root;
 
     //used for iteration and changing of materials on key pressed m
     this.Idnodes=[];
-    
     
 }
 
@@ -109,11 +109,10 @@ XMLscene.prototype.initPrimitives = function () {
 				i+=5;
 				break;
 			case "torus":
-				this.primitive = new MyTorus(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+				this.primitive = new MyTorus(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
 				i+=6;
 				break;
 			default:
-				//no time for this right now
 				break;
 					 }
 		this.builtPrimitives.push(this.primitive);
@@ -144,7 +143,9 @@ XMLscene.prototype.changeView=function(){
     this.camera = new CGFcamera(this.perspectiveList[this.view+3], this.perspectiveList[this.view+1], this.perspectiveList[this.view+2], vec3.fromValues(this.perspectiveList[this.view+4], this.perspectiveList[this.view+5], this.perspectiveList[this.view+6]), vec3.fromValues(this.perspectiveList[this.view+7], this.perspectiveList[this.view+8], this.perspectiveList[this.view+9]));
 
 }
-
+XMLscene.prototype.Luz = function(interface) {
+    interface.add(this,'luzes');
+};
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function () 
@@ -248,7 +249,7 @@ XMLscene.prototype.display = function () {
 
     }
 
-    this.graph.nodes['root'].display(this, this.graph.nodes['root'].material,  this.graph.nodes['root'].matrix);
+    this.graph.nodes[this.root].display(this, this.graph.nodes[this.root].material,  this.graph.nodes[this.root].matrix);
 
 
 	}

@@ -88,6 +88,7 @@ MySceneGraph.prototype.parseGlobals= function(rootElement) {
 	// various examples of different types of access
 	var globals = elems[0];
 	this.axis_length=this.reader.getFloat(globals,'axis_length');
+	this.scene.root=this.reader.getString(globals,'root');
 	
 	
 
@@ -132,7 +133,7 @@ MySceneGraph.prototype.parseIllumination=function(rootElement){
 	if (elems.length != 1) {
 		return "either zero or more than one 'illumination' element found.";
 	}
-	//#TODO put these variables in xml scene
+	
 	var illum=elems[0];
 	this.doublesided=this.reader.getBoolean(illum,'doublesided');
 	this.local=this.reader.getBoolean(illum,'local');
@@ -252,7 +253,7 @@ MySceneGraph.prototype.parseTextures= function(rootElement){
 	}	
 };
 
-
+//Vai buscar os atributos dos materiais e coloca-os na lista de materiais
 MySceneGraph.prototype.parseMaterials= function(rootElement){
 	var elems =  rootElement.getElementsByTagName('materials');
 	if (elems == null) {
@@ -295,7 +296,7 @@ MySceneGraph.prototype.parseMaterials= function(rootElement){
 	
 };
 	
-//#TODO Mudar isto pra interpretar como matriz e multiplicar
+//Vai buscar os atributos das transformações e cria a matriz de transformação
 MySceneGraph.prototype.parseTransformations= function(rootElement){
 	var elems =  rootElement.getElementsByTagName('transformations');
 	if (elems == null) {
@@ -320,7 +321,7 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		this.transf_matrix = mat4.clone(mat4.create());
 		this.scene.transformationList.push(temptransformation.getAttribute('id'));
 		for(var j=0;j<temptransformation.children.length;j++){
-		//#TODO n sei se funciona adicionar o entendimento de q pode haver vários translates seguidos logo tem de ter um for()
+		//pode haver vários translates seguidos logo tem de ter um for()
 		if(temptransformation.children[j].tagName=='translate'){
 			this.transl[0]=(temptransformation.children[j].getAttribute('x'));
 			
@@ -356,6 +357,48 @@ MySceneGraph.prototype.parseTransformations= function(rootElement){
 		
 	}
 	
+};
+
+MySceneGraph.prototype.parseAnimations= function(rootElement){
+var elems =  rootElement.getElementsByTagName('animations');
+if (elems == null) {
+		return "animations element is missing.";
+	}
+if (elems.length != 1) {
+		return "not enough or too many animations element found";
+	}
+if(elems[0].children.length>0){
+	var nanimations=elems[0].children.length;
+	for (var i=0;i<nanimations;i++){
+
+		var tempanimation=elems[0].children[i];
+		this.scene.animationList.push(tempanimation.getAttribute('id'));
+		if(tempanimation.getAttribute('type')=='linear'){
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('span')));
+			this.scene.animationList.push(tempanimation.getAttribute('type'));
+			for(var k=0;i<tempanimation.children.length;k++){
+				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('x')));
+				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('y')));
+				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('z')));
+			}
+		}
+		//#TODO entender como funciona o atributo center,pode necessitar de outras alterações
+		if(tempanimation.getAttribute('type')=='circular'){
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('span')));
+			this.scene.animationList.push(tempanimation.getAttribute('type'));
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('center')));
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('radius')));
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('startang'))*Math.PI/180);
+			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('rotang'))*Math.PI/180);
+
+		}
+
+		
+
+
+}
+
+}
 };
 
 MySceneGraph.prototype.parsePrimitives= function(rootElement){
@@ -413,11 +456,11 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('stacks')));
 		}
 		if(temprimitive.children[0].tagName=='torus'){
-			this.scene.primitiveList.push("torus");
+		this.scene.primitiveList.push("torus");
 		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('inner')));
 		this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('outer')));
 		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('slices')));
-		this.scene.primitivsList.push(parseFloat(temprimitive.children[0].getAttribute('loops')));
+		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('loops')));
 		}
 		
 		
@@ -522,18 +565,22 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	    }
 		//children block
 		var tempchildren=tempcomponent.children[3];
+		console.log(tempchildren);
 		for(var k=0;k<tempchildren.children.length;){
+			if(k<tempchildren.children.length){
 			if(tempchildren.children[k].tagName=='componentref'){
 				//console.log(tempchildren.children[k].getAttribute('id'));
 			this.nodes[tempcomponent.id].addChild(tempchildren.children[k].getAttribute('id'));
 			k++;
 		}
+	}
+			if(k<tempchildren.children.length){
 			if(tempchildren.children[k].tagName=='primitiveref'){
-				//console.log(tempchildren.children[k].getAttribute('id'));
 				this.nodes[tempcomponent.id].addType(tempchildren.children[k].getAttribute('id'));
 				
 				k++;
 			}
+		}
 			
 		}
 		
