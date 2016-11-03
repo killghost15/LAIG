@@ -123,18 +123,19 @@
     
     
     </transformations>
-<!-- novo bloco de animacao -->
+
     <animations>
     <!-- podem existir zero ou mais nós "animation" -->
     <!-- span é o tempo, em segundos, que a animação deve -->
     <!-- demorar. Nesta versão do formato DSX, type pode ter -->
     <!-- o valor "linear" ou "circular"; na animacao circular -->
     <!-- os angulos sao expressos em graus  -->
-    <animation id="ss" span="ff" type="linear">
-        <controlpoint xx="ff" yy="ff" zz="ff" />
+
+    <animation id="anim1" span="10" type="linear">
+        <controlpoint xx="1" yy="1" zz="1" />
     </animation>
-        <animation id="ss" span="ff" type="circular" center="ff ff ff"
-               radius="ff" startang="ff" rotang="ff" />
+        <animation id="orbit" span="10" type="circular" center="1 1 1"
+               radius="2" startang="50" rotang="60" />
     </animations>
 
    
@@ -158,6 +159,9 @@
         </primitive>
         <primitive id="UFO">
             <triangle x1="1" y1="1" z1="1" x2="0" y2="0" z2="0" x3="0" y3="1" z3="0" />
+        </primitive>
+        <primitive id="ring">
+           <torus inner="1" outer="1" slices="10" loops="2" /> 
         </primitive>
 
     </primitives>
@@ -258,6 +262,7 @@
             <texture id="sattelitetex" />
             
             <children>
+                <primitiveref id="ring" />
                 <primitiveref id="satteliteprim" />
                 <primitiveref id="panel1"/>
                 <primitiveref id="panel2" />

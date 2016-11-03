@@ -27,14 +27,15 @@ MySceneGraph.prototype.onXMLReady=function()
 	
 	// Here should go the calls for different functions to parse the various blocks
 	var error;
-	error=this.checkDSXBlocks(rootElement);
-	error =this.parseGlobals(rootElement);
-	error= this.parseViews(rootElement);
+	error = this.checkDSXBlocks(rootElement);
+	error = this.parseGlobals(rootElement);
+	error = this.parseViews(rootElement);
 	error = this.parseIllumination(rootElement);
 	error = this.parseLights(rootElement);
 	error = this.parseTextures(rootElement);
 	error = this.parseMaterials(rootElement);
 	error = this.parseTransformations(rootElement);
+	error = this.parseAnimations(rootElement);
 	error = this.parsePrimitives(rootElement);
 	error = this.parseComponents(rootElement);
 	if (error != null) {
@@ -372,30 +373,43 @@ if(elems[0].children.length>0){
 	for (var i=0;i<nanimations;i++){
 
 		var tempanimation=elems[0].children[i];
-		this.scene.animationList.push(tempanimation.getAttribute('id'));
+		var animation=[];
+
+		//se o atributo for linear ocorre de uma maneira se for circular é outra
 		if(tempanimation.getAttribute('type')=='linear'){
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('span')));
-			this.scene.animationList.push(tempanimation.getAttribute('type'));
-			for(var k=0;i<tempanimation.children.length;k++){
-				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('x')));
-				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('y')));
-				this.scene.animationList.push(parseFloat(tempanimation.children[k].getAttribute('z')));
+			animation['span']=parseFloat(tempanimation.getAttribute('span'));
+			animation['type']=tempanimation.getAttribute('type');
+			animation['controlpoints']=[];
+			for(var k=0;k<tempanimation.children.length;k++){
+				 animation['controlpoints'].push({
+				 	"x" : parseFloat(tempanimation.children[k].getAttribute('xx')),
+                    "y" : parseFloat(tempanimation.children[k].getAttribute('yy')),
+                    "z" : parseFloat(tempanimation.children[k].getAttribute('zz'))
+                }
+            )
 			}
 		}
 		//#TODO entender como funciona o atributo center,pode necessitar de outras alterações
 		if(tempanimation.getAttribute('type')=='circular'){
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('span')));
-			this.scene.animationList.push(tempanimation.getAttribute('type'));
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('center')));
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('radius')));
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('startang'))*Math.PI/180);
-			this.scene.animationList.push(parseFloat(tempanimation.getAttribute('rotang'))*Math.PI/180);
+			animation['span']=parseFloat(tempanimation.getAttribute('span'));
+			animation['type']=tempanimation.getAttribute('type');
+			var tempstring=tempanimation.getAttribute('center');
+			var tempArray = tempstring.split(/\s+/);
+			animation['center']=[];
+
+			for(i = 0; i < tempArray.length; i++){
+            animation['center'][i] = parseFloat(tempArray[i]);
+        }
+
+			animation['radius']=parseFloat(tempanimation.getAttribute('radius'));
+			animation['startang']=(parseFloat(tempanimation.getAttribute('startang'))*Math.PI/180);
+			animation['rotang']=(parseFloat(tempanimation.getAttribute('rotang'))*Math.PI/180);
 
 		}
 
 		
 
-
+this.scene.animationList[tempanimation.getAttribute('id')]=animation;
 }
 
 }

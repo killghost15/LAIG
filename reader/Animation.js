@@ -1,41 +1,27 @@
-function Animation(scene, duration) {
+function Animation(scene, duration, type) {
     this.active = true;
     this.scene = scene;
     this.duration = duration;
-    this.time = 0;
-    this.matrix = mat4.create();
+    this.type = type;
 }
-
-Animation.prototype.init = function () {
-
-};
-
+//#TODO might need changing
 Animation.prototype.update = function (angleRot, vecPosition) {
 
-    if (this.time >= this.duration) {
-        this.active = false;
-        return false;
-    }
-
-    mat4.identity(this.matrix);
+    var matrix = mat4.create();
+    mat4.identity(matrix);
 
     mat4.translate(
-        this.matrix,
-        this.matrix,
+        matrix,
+        matrix,
         vecPosition
     );
 
     mat4.rotate(
-        this.matrix,
-        this.matrix,
+        matrix,
+        matrix,
         angleRot,
         [0, 1, 0]
     );
 
-    this.time += this.scene.updatePeriod / 1000;
-    return true;
-};
-
-Animation.prototype.reset = function () {
-    this.time = 0;
+    return matrix;
 };
