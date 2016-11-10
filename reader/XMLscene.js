@@ -14,7 +14,7 @@ function XMLscene() {
     this.perspectiveList=[];
     this.root;
 
-    //used for iteration and changing of materials on key pressed m
+    //used for iteration of nodesList that is indexed by Id and changing of materials on key pressed m
     this.Idnodes=[];
     
 }
@@ -42,6 +42,10 @@ this.view=0;
 	this.axis=new CGFaxis(this);
     this.drawaxis=true;
     this.luzes=[];
+    this.time_date = new Date().getTime();
+    this.pause=false;
+    this.setUpdatePeriod(1000/60);
+
 };
 
 XMLscene.prototype.initLights = function () {
@@ -57,7 +61,23 @@ XMLscene.prototype.initLights = function () {
 XMLscene.prototype.initCameras = function () {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 };
+//method that permites to pause all animations
+XMLscene.prototype.Pause=function(){
+    this.pause=!this.pause;
+};
 
+//Updates all nodes animations
+XMLscene.prototype.update=function(currTime){
+     if (this.graph.loadedOk) {
+
+    if(this.pause!=true){
+    for(var i=0; i< this.Idnodes.length;i++){
+
+    this.graph.nodes[this.Idnodes[i]].updateAnimation(currTime);
+}
+}
+}
+}
 //method that takes the disorganized arguments in materialList where it was stored from DSX and creates CGFappearences with it ready to be applied 
 XMLscene.prototype.initMaterials = function() {
   for(var i = 0; i < this.materialList.length; i+= 18){

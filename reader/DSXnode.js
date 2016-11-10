@@ -7,7 +7,11 @@ function DSXnode(scene){
   this.matrix=mat4.create();
   this.args=[];
   this.cena=scene;
+  this.animations=[];
   this.n=0;
+  this.builtAnimations=[];
+  this.time=0;
+  this.timeVector=0;
 }
 
 DSXnode.prototype.addChild = function (id) {
@@ -21,7 +25,30 @@ DSXnode.prototype.setTex = function (id) {
 DSXnode.prototype.addMaterial = function (id) {
   this.materials.push(id);
 };
+//adiciona o id da animation 
+DSXnode.prototype.addAnimation = function(id){
+  this.animations.push(id);
 
+  for(var id in this.cena.animationList ){
+    if(this.cena.animationList[id]['type']=="linear"){
+      this.builtAnimations.push("linear");
+      this.builtAnimations.push(0); //time
+      this.builtAnimations.push(0); //timevector
+      this.builtAnimations.push(0); //nvector
+      var animation=new LinearAnimation(this.cena,this.cena.animationList[id]['span'],this.cena.animationList[id]['controlpoints']);
+      this.builtAnimations.push(animation);
+      
+    }
+    //#TODO acrescentar a circular animation
+    if(this.cena.animationList[id]['type']=="circular"){
+      this.builtAnimations.push("circular");
+      this.builtAnimations.push(0); //time
+      var animation = new CircularAnimation(this.cena,this.cena.animationList[id]['span'],this.cena.animationList[id]['radius'],this.cena.animationList[id]['centerx'],this.cena.animationList[id]['centery'],this.cena.animationList[id]['centerz'],this.cena.animationList[id]['startang'],this.cena.animationList[id]['rotang']);
+      this.builtAnimations.push(animation);
+
+    }
+  }
+};
 DSXnode.prototype.addType = function (id) {
   this.primitives.push(id);
 };
@@ -58,15 +85,58 @@ DSXnode.prototype.changeMaterialNode=function(){
 		this.n=0;
 
 }
+DSXnode.prototype.updateAnimation=function(currTime){
+  for(var i=0;i<this.builtAnimations.length;){
+    if(this.builtAnimations[i]=="linear"){
+      this.builtAnimations[i+1]+=this.cena.updatePeriod/1000;
+      this.builtAnimations[i+2]+=this.cena.updatePeriod/1000;
+
+      if(this.builtAnimations[i+2]>=this.builtAnimations[i+4].duration*this.builtAnimations[i+4].vectors[this.builtAnimations[i+3]].l/this.builtAnimations[i+4].distance){
+ 
+        this.builtAnimations[i+2]=0;
+      this.builtAnimations[i+3]=this.builtAnimations[i+3]+1;
+      if(  this.builtAnimations[i+3]>=this.builtAnimations[i+4].vectors.length)
+      	this.builtAnimations[i+3]=0;
+    }
+
+    i+=5;
+}
+  if(this.builtAnimations[i]=="circular"){
+    this.builtAnimations[i+1]+=this.cena.updatePeriod/1000;
+    i+=3;
+  }
+ 
+
+
+}
+}
+
 //faz o display do node com a sua textura, material e matriz de acordo com os argumentos "none" ou "inherit" utiliza nenhum material ou o do pai respectivamente
 DSXnode.prototype.display = function (scene, materialP, M) {
 
   var trans_matrix = mat4.create();
   var boolean = true;
+  var animation_matrix=mat4.create();
+  mat4.identity(animation_matrix);
   this.material=this.materials[this.n];
   mat4.multiply(trans_matrix, this.matrix,M);
   scene.multMatrix(trans_matrix);
+	
+   for(var g=0;g<this.builtAnimations.length;){
+    if(this.builtAnimations[g]=="linear"){
+      animation_matrix=this.builtAnimations[g+4].update(this.builtAnimations[g+1],this.builtAnimations[g+2],this.builtAnimations[g+3]);
+
+    g+=5;
+  }
+  if(this.builtAnimations[g]=="circular"){
+   animation_matrix=this.builtAnimations[g+2].update(this.builtAnimations[g+1]);
+    g+=3;
+  }
   
+}
+scene.pushMatrix();
+scene.multMatrix(animation_matrix);
+
   
   
     for(var i = 0; i < this.children.length; i++){
@@ -93,5 +163,6 @@ DSXnode.prototype.display = function (scene, materialP, M) {
   }
 
     }
+    scene.popMatrix();
   
 };

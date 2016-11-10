@@ -371,10 +371,8 @@ if (elems.length != 1) {
 if(elems[0].children.length>0){
 	var nanimations=elems[0].children.length;
 	for (var i=0;i<nanimations;i++){
-
 		var tempanimation=elems[0].children[i];
 		var animation=[];
-
 		//se o atributo for linear ocorre de uma maneira se for circular é outra
 		if(tempanimation.getAttribute('type')=='linear'){
 			animation['span']=parseFloat(tempanimation.getAttribute('span'));
@@ -393,13 +391,10 @@ if(elems[0].children.length>0){
 		if(tempanimation.getAttribute('type')=='circular'){
 			animation['span']=parseFloat(tempanimation.getAttribute('span'));
 			animation['type']=tempanimation.getAttribute('type');
-			var tempstring=tempanimation.getAttribute('center');
-			var tempArray = tempstring.split(/\s+/);
-			animation['center']=[];
+			animation['centerx']=parseFloat(tempanimation.getAttribute('centerx'));
+			animation['centery']=parseFloat(tempanimation.getAttribute('centery'));
+			animation['centerz']=parseFloat(tempanimation.getAttribute('centerz'));
 
-			for(i = 0; i < tempArray.length; i++){
-            animation['center'][i] = parseFloat(tempArray[i]);
-        }
 
 			animation['radius']=parseFloat(tempanimation.getAttribute('radius'));
 			animation['startang']=(parseFloat(tempanimation.getAttribute('startang'))*Math.PI/180);
@@ -500,24 +495,39 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 	var nnodes=elems[0].children.length;
 	
 	for (var i=0;i<nnodes;i++){
-		
+		var b=0;
 		var tempcomponent=elems[0].children[i];
-		this.scene.Idnodes.push(tempcomponent.id);
 		if(this.nodes[tempcomponent.id]!=undefined){
 			console.error("Node " + e + " already exists");
 		}
 		//se não existir o node então:
 		else{
+			//coloca o id na lista de id nodes
+			this.scene.Idnodes.push(tempcomponent.id);
 			//cria o node e coloca o na lista de nodes q está idexada por ids
 		this.nodes[tempcomponent.id]=new DSXnode(this.scene);
 		//console.log(tempcomponent.id +" material:"+ tempcomponent.children[1].children[0].getAttribute('id'));
-		//default é o primeiro logo elemento 0 do material dentro dos materials; 
-	    for(var k=0;k<tempcomponent.children[1].children.length;k++){
-	    this.nodes[tempcomponent.id].addMaterial(tempcomponent.children[1].children[k].getAttribute('id'));
+		//default é o primeiro logo elemento 0 do material dentro dos materials;
+		if(tempcomponent.children[1].tagName=="animation"){
+				b=1;
+
+			}
+			else
+				b=0;
+
+	    for(var k=0;k<tempcomponent.children[1+b].children.length;k++){
+	    this.nodes[tempcomponent.id].addMaterial(tempcomponent.children[1+b].children[k].getAttribute('id'));
 	   
 		}
 		
-	    this.nodes[tempcomponent.id].setTex(tempcomponent.children[2].getAttribute('id'));
+	    this.nodes[tempcomponent.id].setTex(tempcomponent.children[2+b].getAttribute('id'));
+
+	    if(b==1){
+	    	for(var g=0;g<tempcomponent.children[1].children.length;g++){
+	    	this.nodes[tempcomponent.id].addAnimation(tempcomponent.children[1].children[g].getAttribute('id'));
+	    }
+
+	    }
 	    
 	    //se existir um transformationref entra neste if; e depois vai procurar na lista de transformações o id igual e faz setmatrix neste nó com a matriz correspondente a esse id,que é o elemento a seguir ao id na lista
 	    if(tempcomponent.children[0].children.length!=0){
@@ -578,8 +588,7 @@ MySceneGraph.prototype.parseComponents=function(rootElement){
 			}
 	    }
 		//children block
-		var tempchildren=tempcomponent.children[3];
-		console.log(tempchildren);
+		var tempchildren=tempcomponent.children[3+b];
 		for(var k=0;k<tempchildren.children.length;){
 			if(k<tempchildren.children.length){
 			if(tempchildren.children[k].tagName=='componentref'){

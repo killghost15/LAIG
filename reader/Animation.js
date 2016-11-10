@@ -4,7 +4,6 @@ function Animation(scene, duration, type) {
     this.duration = duration;
     this.type = type;
 }
-//#TODO might need changing
 Animation.prototype.update = function (angleRot, vecPosition) {
 
     var matrix = mat4.create();
@@ -15,13 +14,13 @@ Animation.prototype.update = function (angleRot, vecPosition) {
         matrix,
         vecPosition
     );
-
+    if(this.type!="linear"){
     mat4.rotate(
         matrix,
         matrix,
         angleRot,
         [0, 1, 0]
     );
-
+}
     return matrix;
 };
