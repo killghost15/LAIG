@@ -87,6 +87,7 @@ DSXnode.prototype.changeMaterialNode=function(){
 }
 DSXnode.prototype.updateAnimation=function(currTime){
   for(var i=0;i<this.builtAnimations.length;){
+
     if(this.builtAnimations[i]=="linear"){
       this.builtAnimations[i+1]+=this.cena.updatePeriod/1000;
       this.builtAnimations[i+2]+=this.cena.updatePeriod/1000;

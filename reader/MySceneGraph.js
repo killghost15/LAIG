@@ -471,6 +471,30 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('slices')));
 		this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('loops')));
 		}
+		if(temprimitive.children[0].tagName=='plane'){
+			this.scene.primitiveList.push("plane");
+			this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('dimX')));
+			this.scene.primitiveList.push(parseFloat(temprimitive.children[0].getAttribute('dimY')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('partsX')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('partsY')));
+
+		}
+		if(temprimitive.children[0].tagName=='patch'){
+			var controlpoints=[];
+			this.scene.primitiveList.push("patch");
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('orderU')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('orderV')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('partsU')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('partsV')));
+			for(var l=0;l<temprimitive.children[0].children.length;l++){
+				controlpoints[l]=[];
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('x')));
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('y')));
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('z')));
+			}
+			this.scene.primitiveList.push(controlpoints);
+
+		}
 		
 		
 	}

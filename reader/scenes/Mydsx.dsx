@@ -142,6 +142,7 @@
    
 
     <primitives>
+
     	<primitive id="planetsmall">
     	
     	   <sphere radius="2" slices="50" stacks="50" />
@@ -163,6 +164,9 @@
         </primitive>
         <primitive id="ring">
            <torus inner="1" outer="1" slices="10" loops="2" /> 
+        </primitive>
+        <primitive id="plano1" >
+            <plane dimX="3" dimY="2" partsX="10" partsY="7" />
         </primitive>
 
     </primitives>

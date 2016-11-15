@@ -132,6 +132,14 @@ XMLscene.prototype.initPrimitives = function () {
 				this.primitive = new MyTorus(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
 				i+=6;
 				break;
+                case "plane":
+                this.primitive=new Plane(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5]);
+                i+=6;
+                break;
+                case "patch":
+                this.primitive=new Patch(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6]);
+                i+=7;
+                break;
 			default:
 				break;
 					 }
