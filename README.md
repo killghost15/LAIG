@@ -10,11 +10,13 @@
 * necessita mais comentários //fixed
 
 #Animations
-* Both Animations working but linear isn't as suposed
+* Both Animations working but linear isn't as suposed-> because of missing push and popmatrix somewhere, animations are afected by the previous animation... 
 * Issue with duration/span/time almost seems like the algorith is thinking that span is minutes or hours instead of seconds
 
 #Patch/Plane
-* Not started, no issues at the moment
+* Done
+* need to display a plane
+* need to display a patch, lot of control points bcs (orderv+1)*(orderU+1)=nr of control points
 
 #Shaders
 * Not started 
