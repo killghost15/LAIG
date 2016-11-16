@@ -17,7 +17,8 @@
 * Done
 * need to display a plane
 * need to display a patch, lot of control points bcs (orderv+1)*(orderU+1)=nr of control points
-* vehicle missing
+* vehicle missing: Starting pending imagination and controlpoint commitement
+
 
 #Shaders
 * Not started 
