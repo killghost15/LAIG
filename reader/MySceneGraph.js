@@ -495,9 +495,12 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 			this.scene.primitiveList.push(controlpoints);
 
 		}
-		
+		if(temprimitive.children[0].tagName=='vehicle'){
+			this.scene.primitiveList.push("vehicle");
+		}
 		
 	}
+	console.log(this.scene.primitiveList);
 	
 };
 

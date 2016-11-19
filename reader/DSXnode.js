@@ -135,10 +135,9 @@ DSXnode.prototype.display = function (scene, materialP, M) {
   }
   
 }
-scene.pushMatrix();
-scene.multMatrix(animation_matrix);
 
-  
+
+    
   
     for(var i = 0; i < this.children.length; i++){
     scene.pushMatrix();
@@ -146,7 +145,8 @@ scene.multMatrix(animation_matrix);
       scene.graph.nodes[this.children[i]].display(scene,this.material,this.matrix);
       scene.popMatrix();
     }
-
+    scene.pushMatrix();
+    scene.multMatrix(animation_matrix);
 
     if(this.material == "inherit"){
     this.material = materialP;
@@ -154,6 +154,7 @@ scene.multMatrix(animation_matrix);
   if(this.material=="none"){
   	this.material=null;
   }
+
   for(var j=0;j<this.primitives.length;j++){
     for(var i = 0; i <scene.builtPrimitives.length; i += 2){
       if(this.primitives[j] == scene.builtPrimitives[i]){
@@ -164,6 +165,9 @@ scene.multMatrix(animation_matrix);
   }
 
     }
+
     scene.popMatrix();
+
+    
   
 };

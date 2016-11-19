@@ -38,7 +38,7 @@ XMLscene.prototype.init = function (application) {
     this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
-this.view=0;
+    this.view=0;
 	this.axis=new CGFaxis(this);
     this.drawaxis=true;
     this.luzes=[];
@@ -137,10 +137,15 @@ XMLscene.prototype.initPrimitives = function () {
                 i+=6;
                 break;
                 case "patch":
-                this.primitive=new Patch(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6]);
+                this.primitive = new Patch(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6]);
                 i+=7;
                 break;
+               case "vehicle":
+                this.primitive = new Vehicle(this);
+                i++;
+                break;
 			default:
+            i++;
 				break;
 					 }
 		this.builtPrimitives.push(this.primitive);

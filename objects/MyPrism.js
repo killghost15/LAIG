@@ -26,6 +26,7 @@
  	this.vertices=[];
  	this.indices=[];
  	this.normals=[];
+ 	this.texCoords=[];
  	var z=0;
  	for(var j=0; j < this.stacks;j++){
  		var ang=0;
@@ -35,7 +36,15 @@
  	this.vertices.push(Math.cos(ang),Math.sin(ang), z);
  	this.vertices.push(Math.cos(ang + this.ang),Math.sin(ang+this.ang), z+this.z);
  	this.vertices.push(Math.cos(ang),Math.sin(ang), z+this.z);
- 	
+ 	this.texCoords.push(1);
+ 	this.texCoords.push(1);
+ 	this.texCoords.push(1);
+ 	this.texCoords.push(0);
+ 	this.texCoords.push(0);
+ 	this.texCoords.push(1);
+ 	this.texCoords.push(0);
+ 	this.texCoords.push(0);
+    
 
  	this.indices.push(2+4*i+j*4*this.slices, j*4*this.slices+4*i+1, j*4*this.slices+4*i);
  	this.indices.push(j*4*this.slices+4*i+2, j*4*this.slices+4*i+3, j*4*this.slices+4*i+1);

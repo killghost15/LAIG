@@ -14,10 +14,9 @@
 * Issue with duration/span/time almost seems like the algorith is thinking that span is minutes or hours instead of seconds
 
 #Patch/Plane
-* Done
-* need to display a plane
-* need to display a patch, lot of control points bcs (orderv+1)*(orderU+1)=nr of control points
-* vehicle missing: Starting pending imagination and controlpoint commitement
+* need to display a plane // done
+* need to display a patch, lot of control points bcs (orderv+1)*(orderU+1)=nr of control points on his onw
+* vehicle missing: Starting pending imagination and controlpoint commitement //added but needs more work in the surface part so it looks better
 
 
 #Shaders

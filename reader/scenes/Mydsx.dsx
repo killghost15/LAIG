@@ -168,11 +168,44 @@
         <primitive id="plano1" >
             <plane dimX="3" dimY="2" partsX="10" partsY="7" />
         </primitive>
+         <primitive id="plano2" >
+            <plane dimX="3" dimY="2" partsX="10" partsY="7" />
+        </primitive>
+        <primitive id="nave" >
+            <vehicle />
+        </primitive>
+        
 
     </primitives>
-    
-	<components>
+    <components>
         <component id="root">
+        
+            <!-- bloco "transformation" obrigatorio -->
+            <transformation>
+
+     
+            </transformation>
+       
+            
+            <materials>
+                <material id="material1" />
+            </materials>
+                         
+           
+            <texture id="tatooine" />
+            
+            <!-- bloco "children" obrigatorio num "component" -->
+            <children>
+            
+                <!-- deve existir uma ou mais tags "componentref" e/ou -->
+                <!-- "primitiveref", identificando outros -->
+                <!-- componentes ou primitivas -->
+                <componentref id="tatooine" />
+               
+            </children>
+            
+        </component>
+        <component id="tatooine">
         
             <!-- bloco "transformation" obrigatorio -->
             <transformation>
@@ -327,7 +360,9 @@
             <children>
             
                 <componentref id="UFO"/>
+                <componentref id="new-ship"/>
                 <primitiveref id="planetsmall" />
+
                 
             </children>
             
@@ -357,6 +392,32 @@
             
                 
                 <primitiveref id="UFO" />
+                
+            </children>
+            
+        </component>
+
+        <component id="new-ship">
+        
+          
+            <transformation>
+            <scale x="0.3" y="0.3" z="0.3" />
+            <translate x="1.5" y="-2" z="1" />
+           
+            </transformation>
+       
+            
+            <materials>
+                <material id="material2" />
+            </materials>
+                         
+              
+            <texture id="sattelitetex" />
+            
+            <children>
+            
+                
+                <primitiveref id="nave"/>
                 
             </children>
             

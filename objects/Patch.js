@@ -22,7 +22,7 @@ function Patch(scene,orderU, orderV,partsU, partsV, controlPoints) {
         else
             this.knotsV.push(1);
     }
-
+//if undefined like in plane,creates a base set with order 0
     this.controlPoints = [];
     if (controlPoints == undefined) {
         this.controlPoints = [[[-0.5, 0.0, 0.5, 1], [-0.5, 0.0, -0.5, 1]], [[0.5, 0.0, 0.5, 1], [0.5, 0.0, -0.5, 1]]];
