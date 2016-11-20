@@ -505,20 +505,20 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 			this.scene.primitiveList.push(temprimitive.children[0].getAttribute('textureref'));
 			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('su')));
 			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('sv')));
-			var controlpoints=[];
-			for(var l=0;l<temprimitive.children[0].children.length;l++){
-				controlpoints[l]=[];
-				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('r')));
-				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('g')));
-				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('b')));
-				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('a')));
-
-			}
-			this.scene.primitiveList.push(controlpoints);
+			var colorpoints=[];
+			console.log(temprimitive.children[0].children);
+				for(var l=0;l< temprimitive.children[0].children.length;l++){
+				colorpoints[l]=[];
+				colorpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('r')));
+				colorpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('g')));
+				colorpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('b')));
+				colorpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('a')));
+}
+			this.scene.primitiveList.push(colorpoints);
 		}
 		
 	}
-	console.log(this.scene.primitiveList);
+	
 	
 };
 

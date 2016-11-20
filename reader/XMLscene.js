@@ -144,6 +144,9 @@ XMLscene.prototype.initPrimitives = function () {
                 this.primitive = new Vehicle(this);
                 i++;
                 break;
+                case "chessboard":
+                this.primitive = new Chessboard(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7]);
+                i+=8;
 			default:
             i++;
 				break;
