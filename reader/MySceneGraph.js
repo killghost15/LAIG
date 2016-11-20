@@ -498,6 +498,24 @@ MySceneGraph.prototype.parsePrimitives= function(rootElement){
 		if(temprimitive.children[0].tagName=='vehicle'){
 			this.scene.primitiveList.push("vehicle");
 		}
+		if(temprimitive.children[0].tagName=='chessboard'){
+			this.scene.primitiveList.push("chessboard");
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('du')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('dv')));
+			this.scene.primitiveList.push(temprimitive.children[0].getAttribute('textureref'));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('su')));
+			this.scene.primitiveList.push(parseInt(temprimitive.children[0].getAttribute('sv')));
+			var controlpoints=[];
+			for(var l=0;l<temprimitive.children[0].children.length;l++){
+				controlpoints[l]=[];
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('r')));
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('g')));
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('b')));
+				controlpoints[l].push(parseFloat(temprimitive.children[0].children[l].getAttribute('a')));
+
+			}
+			this.scene.primitiveList.push(controlpoints);
+		}
 		
 	}
 	console.log(this.scene.primitiveList);
