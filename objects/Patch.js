@@ -25,7 +25,7 @@ function Patch(scene,orderU, orderV,partsU, partsV, controlPoints) {
 //if undefined like in plane,creates a base set with order 0
     this.controlPoints = [];
     if (controlPoints == undefined) {
-        this.controlPoints = [[[-0.5, 0.0, 0.5, 1], [-0.5, 0.0, -0.5, 1]], [[0.5, 0.0, 0.5, 1], [0.5, 0.0, -0.5, 1]]];
+        this.controlPoints = [[[0.5, -0.5,0.0, 1], [-0.5, -0.5, 0, 1]], [[0.5, 0.5, 0.0, 1], [-0.5, 0.5,0.0, 1]]];
     } else {
         for (i = 0; i < this.orderU + 1; i++) {
             var v = [];

@@ -66,6 +66,13 @@ function Chessboard(scene,  dU, dV, textureref, sU, sV,colorPoints) {
 		} else
 			this.sU++;
 			
-		this.setValuesShader();
+		this.shader.setUniformsValues({dU: this.dU});
+	this.shader.setUniformsValues({dV: this.dV});
+	this.shader.setUniformsValues({sU: this.sU});
+	this.shader.setUniformsValues({sV: this.sV});
+
+	this.shader.setUniformsValues({c1: this.colorPoints[0]});
+	this.shader.setUniformsValues({c2: this.colorPoints[1]});
+	this.shader.setUniformsValues({cs: this.colorPoints[2]});
 	}
  };

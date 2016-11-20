@@ -4,20 +4,25 @@
 * noticed that the getElementsbyTag might not work and we might need to change it to temp.children[0] //fixed
 
 #Components
-* Falta a parte children //fixed
-* duvidas no tratamento da matriz //fixed
-* duvidas em certas condições se são aplicaveis ou não //fixed
-* necessita mais comentários //fixed
+* missing children //fixed
+* appliance of matrix issue //fixed
+
+* needs more comments //fixed
 
 #Animations
 * Both Animations working but linear isn't as suposed-> because of missing push and popmatrix somewhere, animations are afected by the previous animation... 
 * Issue with duration/span/time almost seems like the algorith is thinking that span is minutes or hours instead of seconds
+* needs more comments
+
 
 #Patch/Plane
 * need to display a plane // done
 * need to display a patch, lot of control points bcs (orderv+1)*(orderU+1)=nr of control points on his onw
 * vehicle missing: Starting pending imagination and controlpoint commitement //added but needs more work in the surface part so it looks better
-
+* needs more comments
 
 #Shaders
-* Not started 
+* done
+* update function a little wierd
+* shaders .vert needs some changes
+* needs more comments

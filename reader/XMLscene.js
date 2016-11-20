@@ -13,7 +13,7 @@ function XMLscene() {
     this.nlights=0;
     this.perspectiveList=[];
     this.root;
-
+    this.chessboardId=[];
     //used for iteration of nodesList that is indexed by Id and changing of materials on key pressed m
     this.Idnodes=[];
     
@@ -72,6 +72,11 @@ XMLscene.prototype.update=function(currTime){
 
     if(this.pause!=true){
     for(var i=0; i< this.Idnodes.length;i++){
+        for(var g=0; g< this.builtPrimitives.length;g++){
+            for(var h=0;h<this.chessboardId.length;h++)
+            if(this.builtPrimitives[g]==this.chessboardId[h])
+                this.builtPrimitives[g+1].update(0.1);
+        }
 
     this.graph.nodes[this.Idnodes[i]].updateAnimation(currTime);
 }
@@ -145,8 +150,10 @@ XMLscene.prototype.initPrimitives = function () {
                 i++;
                 break;
                 case "chessboard":
+                this.chessboardId.push(this.primitiveList[i]);
                 this.primitive = new Chessboard(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7]);
                 i+=8;
+                break;
 			default:
             i++;
 				break;
