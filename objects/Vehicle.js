@@ -6,21 +6,20 @@ function Vehicle(scene) {
     this.exhaust;
     var controlpoints=[];
     controlpoints.push(
-    						 [ -0.5, -0.5, 0.0],
-							 [ -0.75, -1.0, 1.0],
-							 [ -0.75,  1.0, 1.0 ],
-							 [ -0.5,  0.5, 0.0 ],
+    					 [-0.5, -1.75, -0.25],
+							 [-0.75, -2.25, 0.5],
+							 [-0.75, -0.25, 0.5],
+							 [-0.5, -0.75, -0.25],
 
+							 [0, -1, 1.0],
+							 [0, -2, 1.5],
+							 [0, 0, 3.5],
+							 [0, -1, 1.0],
 
-							 [ 0, 0, 2.0],
-							 [ 0, -1.0, 2.0],
-							 [ 0,  1.0, 2.0],
-							 [ 0,  0, 2.0],
-
-							 [ 0.5, -0.5, 0.0],
-							 [ 0.75, -1.0, 1.0],
-							 [ 0.75,  1.0, 1.0],
-							 [ 0.5,  0.5, 0.0]);
+							 [0.5, -1.75, -0.25],
+							 [0.75, -2.25, 0.5],
+							 [0.75, -0.25, 0.5],
+							 [0.5, -0.75, -0.25]);
 
     this.surface=new Patch(scene,2,3,20,20,controlpoints);
 
@@ -53,6 +52,8 @@ Vehicle.prototype.display = function () {
 	//cockpit surface
 
 	this.scene.pushMatrix();
+  this.scene.rotate(Math.PI/2,-1,0,0);
+  this.scene.scale(0.5,0.5,0.5);
 	this.surface.display();
 	this.scene.popMatrix();
 
