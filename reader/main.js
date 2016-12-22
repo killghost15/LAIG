@@ -11,7 +11,8 @@ function getUrlVars() {
     return vars;
 }	 
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js','../objects/Patch.js','../objects/Plane.js','../objects/MyTorus.js','MyInterface.js','../objects/MyTriangle.js','../objects/MyRectangle.js','DSXnode.js','../objects/MySemiSphere.js','../objects/MyCylinder.js','../objects/MyCilinder.js','../objects/MyQuad.js','../objects/MySphere.js','Animation.js','LinearAnimation.js','CircularAnimation.js','../objects/MyPrism.js','../objects/MyWing.js','../objects/Vehicle.js','../objects/Chessboard.js', 
+serialInclude(['../lib/CGF.js', 'XMLscene.js','GameEngine.js', 'request.js' ,'MySceneGraph.js','./utils/MyColor.js', './utils/MyPosition.js',
+    './utils/MyCoordinate.js','../objects/Patch.js','../objects/MyCircle.js','../objects/Plane.js','../objects/MyTorus.js','MyInterface.js','../objects/MyTriangle.js','../objects/MyRectangle.js','DSXnode.js','../objects/MySemiSphere.js','../objects/MyCylinder.js','../objects/MyCilinder.js','../objects/MyQuad.js','../objects/MySphere.js','Animation.js','LinearAnimation.js','CircularAnimation.js','../objects/MyPrism.js','../objects/MyWing.js','../objects/Vehicle.js','../objects/Chessboard.js','../objects/MyHexagon.js','../objects/MyDisk.js','../objects/MyRing.js' ,'../objects/MyAuxBoard.js','../objects/MyGameBoard.js','GameEngine.js',
 
 main=function()
 {

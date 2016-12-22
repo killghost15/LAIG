@@ -58,7 +58,12 @@
    <texture id="sattelitetex" file="../resources/sattelite.png" length_s="1" length_t="1" />
    <texture id="star" file="../resources/star.png" length_s="1" length_t="1" />
    <texture id="board" file="../resources/board.png" length_s="1" length_t="1" />
-    
+   <texture id="BoardTexture" file="../resources/board.png" length_s="1" length_t="1" />
+   <texture id="BoardHighlightTexture" file="../resources/leaves.png" length_s="1" length_t="1"/>
+   <texture id="auxTexture" file="../resources/board.png" length_s="1" length_t="1" />
+   <texture id="auxHighlightTexture" file="../resources/leaves.png" length_s="1" length_t="1"/>
+   <texture id="whiteTexture" file="../resources/white.png" length_s="1" length_t="1"/>
+   <texture id="blackTexture" file="../resources/stripes.png" length_s="1" length_t="1"/>
     </textures>
 
 
@@ -69,6 +74,13 @@
             <ambient r="0" g="1" b="1" a="0" /> 
             <diffuse r="0" g="1" b="1" a="0" />
             <specular r="0" g="1" b="0.7" a="1" />
+            <shininess value="10" />
+        </material>
+        <material id="boardMat">
+            <emission r="0.4" g="0.4" b="0.4" a="0" />        <!-- emission component -->
+            <ambient r="0" g="0" b="0" a="1" />         <!-- ambient reflection -->
+            <diffuse r="0" g="0" b="0" a="1" />         <!-- diffuse reflection -->
+            <specular r="0" g="0" b="0" a="1" />  <!-- specular reflection -->
             <shininess value="10" />
         </material>
         <material id="material2" >
@@ -83,6 +95,21 @@
             <ambient r="" g="0" b="0" a="0" /> 
             <diffuse r="0" g="0" b="0" a="0" />
             <specular r="0" g="0.6" b="0.7" a="1" />
+            <shininess value="100" />
+        </material>
+        <material id="white">
+            <emission r="0" g="0" b="0" a="0" />        <!-- emission component --> 
+            <ambient r="0" g="0" b="0" a="0" />         <!-- ambient reflection -->
+            <diffuse r="1" g="1" b="1" a="1" />         <!-- diffuse reflection -->
+            <specular r="1" g="1" b="1" a="1" />  <!-- specular reflection -->
+            <shininess value="100" />
+        </material>
+
+        <material id="black">
+            <emission r="0" g="0" b="0" a="0" />        <!-- emission component -->
+            <ambient r="0" g="0" b="0" a="0" />         <!-- ambient reflection -->
+            <diffuse r="0" g="0" b="0" a="1" />         <!-- diffuse reflection -->
+            <specular r="1" g="1" b="1" a="1" />  <!-- specular reflection -->
             <shininess value="100" />
         </material>
     </materials>
@@ -181,6 +208,9 @@
                    <c2 r="0" g="0.4" b="0.2" a="1" />
                    <cs r="1" g="0" b="0" a="1" />
             </chessboard>
+        </primitive>
+        <primitive id="HexBoard" >
+        <gameboard/>
         </primitive>
         
 

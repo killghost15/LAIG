@@ -2,7 +2,7 @@ function MyCilinder(scene,base,top,height ,slices, stacks) {
  	CGFobject.call(this,scene);
 
 
-	this.cilinder = new MyCylinder(scene,slices,stacks);
+	this.cilinder = new MyCylinder(scene,height,base,top,slices,stacks);
  };
 
  MyCilinder.prototype = Object.create(CGFobject.prototype);

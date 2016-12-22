@@ -14,6 +14,7 @@ function XMLscene() {
     this.perspectiveList=[];
     this.root;
     this.chessboardId=[];
+
     //used for iteration of nodesList that is indexed by Id and changing of materials on key pressed m
     this.Idnodes=[];
     
@@ -41,13 +42,35 @@ XMLscene.prototype.init = function (application) {
     this.view=0;
 	this.axis=new CGFaxis(this);
     this.drawaxis=true;
+    this.gameEngine = new GameEngine(this);
     this.luzes=[];
     this.time_date = new Date().getTime();
     this.pause=false;
+
+    this.currentBoardState = [];
+    this.currentBoard;
     this.setUpdatePeriod(1000/60);
 
 };
+//mudar para selecionar de acordo com a interface
 
+XMLscene.prototype.getTextureById=function(id){
+ for(var i=0;i<this.builtTextures.length;i+=4){
+        if(this.builtTextures[i]==id){
+            return this.builtTextures[i+1];
+        }
+    }
+
+}
+
+XMLscene.prototype.getMaterialById=function(id){
+
+    for(var i=0;i<this.builtMaterials.length;i+=2){
+        if(this.builtMaterials[i]==id){
+            return this.builtMaterials[i+1];
+        }
+    }
+}
 XMLscene.prototype.initLights = function () {
 	
 	
@@ -56,6 +79,23 @@ XMLscene.prototype.initLights = function () {
 		this.lights[u].setVisible(true);
 		this.lights[u].update();
 	}*/
+};
+
+XMLscene.prototype.logPicking = function() 
+{
+    if (this.pickMode == false) {
+        if (this.pickResults != null  && this.pickResults.length > 0) {
+            for (var i = 0; i < this.pickResults.length; i++) {
+                var obj = this.pickResults[i][0];
+                if (obj) 
+                {
+                    var tileID = this.pickResults[i][1] - 1;
+                    this.gameEngine.processPicking(tileID);
+                }
+            }
+            this.pickResults.splice(0, this.pickResults.length);
+        }
+    }
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -74,8 +114,9 @@ XMLscene.prototype.update=function(currTime){
     for(var i=0; i< this.Idnodes.length;i++){
         for(var g=0; g< this.builtPrimitives.length;g++){
             for(var h=0;h<this.chessboardId.length;h++)
-            if(this.builtPrimitives[g]==this.chessboardId[h])
-                this.builtPrimitives[g+1].update(0.1);
+            if(this.builtPrimitives[g]==this.chessboardId[h]){
+               // this.builtPrimitives[g+1].update(0.1);
+            }
         }
 
     this.graph.nodes[this.Idnodes[i]].updateAnimation(currTime);
@@ -118,7 +159,7 @@ XMLscene.prototype.initPrimitives = function () {
 		this.builtPrimitives.push(this.primitiveList[i]);
 		switch(this.primitiveList[i+1]){
 			case "triangle":
-				this.primitive = new MyTriangle(this,this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4],this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7],this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]);
+				this.primitive = new MyTriangle(this,new MyPosition(this.primitiveList[i+2],this.primitiveList[i+3],this.primitiveList[i+4]),new MyPosition(this.primitiveList[i+5],this.primitiveList[i+6],this.primitiveList[i+7]),new MyPosition(this.primitiveList[i+8],this.primitiveList[i+9],this.primitiveList[i+10]));
 				i+=11;
 				break;
 			case "rectangle":
@@ -250,11 +291,17 @@ XMLscene.prototype.onGraphLoaded = function ()
     this.initTextures();
     this.initPrimitives();
 
+    if(this.currentBoard == null)
+        this.currentBoard = new MyGameBoard(this,7,7);
+    this.auxiliaryBoard = new MyAuxBoard(this);
+
 };
 
 XMLscene.prototype.display = function () {
 	// ---- BEGIN Background, camera and axis setup
-	
+	 this.logPicking();
+    this.clearPickRegistration();
+
 	
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -291,10 +338,12 @@ XMLscene.prototype.display = function () {
 
 
     }
-
+this.pushMatrix();
     this.graph.nodes[this.root].display(this, this.graph.nodes[this.root].material,  this.graph.nodes[this.root].matrix);
-
-
+this.popMatrix();
+        this.currentBoard.display();
+        this.auxiliaryBoard.display();
 	}
+
 };
 
