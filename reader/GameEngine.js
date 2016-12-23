@@ -98,6 +98,7 @@ GameEngine.prototype.processPicking = function(tileID) {
             for(var i = 0; i < this.availablePlays.length; i++){
                 var idTile = this.getTileIDByBoardCoords(this.availablePlays[i][0], this.availablePlays[i][1]);
                 this.scene.currentBoard.tiles[idTile - 1].highlight();
+                console.log("hilighting");
             }
             this.scene.auxiliaryBoard.tiles[tileID - 49].highlight();
 
@@ -136,7 +137,7 @@ GameEngine.prototype.processPicking = function(tileID) {
                 }
             }
             if(!found){
-                console.log('You damn fool, pick a field that is available.');
+                console.log('That field isnt possible');
                 return;
             }
 
@@ -328,7 +329,7 @@ GameEngine.prototype.getBoardCoordsByTileID = function(tileID) {
 };
 GameEngine.prototype.initialize = function(callback) {
     getPrologRequest("createBoard", function(data) {
-        console.log("CALLED CREATEBOARD");
+       
         board = data.target.response;
         callback(board);
     }, true);
@@ -339,7 +340,7 @@ GameEngine.prototype.placePiece = function(board, player, pawn, x, y, callback) 
 
     getPrologRequest("placePiece(" + board + "," + player + "," + pawn + "," + x + "," + y + ")", function(data) {
 
-        console.log("CALLED PLACE PIECE");
+        
         var b1 = data.target.response;
 
         callback(b1);
@@ -352,7 +353,7 @@ GameEngine.prototype.movePiece = function(board, player, pawn, xi, yi, xf, yf, c
 
     getPrologRequest("movePiece(" + board + "," + player + "," + pawn + "," + xi + "," + yi + "," + xf + "," + yf + ")", function(data) {
 
-        console.log("CALLED MOVE PIECE");
+        
         var b1 = data.target.response;
 
         callback(b1);
@@ -363,9 +364,8 @@ GameEngine.prototype.movePiece = function(board, player, pawn, xi, yi, xf, yf, c
 //mode (0 -> PLACE / 1 -> MOVE)
 GameEngine.prototype.validatePlay = function(board, player,pawn, xi, yi, xf, yf, mode, callback) {
 
-    //console.log("validatePlay(" + board + "," + player + "," + xi + "," + yi + "," + xf + "," + yf + "," + mode + "," + pawn + ")");
     getPrologRequest("validatePlay(" + board + "," + player + "," + xi + "," + yi + "," + xf + "," + yf + "," + mode + "," + pawn + ")", function(data) {
-        //console.log("CALLED VALIDATE PLAY");
+       
         var t1 = data.target.response;
         //console.log(t1);
         var t2;

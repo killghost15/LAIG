@@ -19,7 +19,7 @@
 
     <illumination doublesided="false" local="false" >
     
-        <ambient r="0.4" g="0.4" b="0.4" a="1" />            <!-- global ambient -->
+        <ambient r="1" g="1" b="1" a="1" />            <!-- global ambient -->
         <background r="1" g="1" b="0.6" a="1" />         <!-- background color -->
         
     </illumination>
@@ -59,9 +59,9 @@
    <texture id="star" file="../resources/star.png" length_s="1" length_t="1" />
    <texture id="board" file="../resources/board.png" length_s="1" length_t="1" />
    <texture id="BoardTexture" file="../resources/board.png" length_s="1" length_t="1" />
-   <texture id="BoardHighlightTexture" file="../resources/leaves.png" length_s="1" length_t="1"/>
+   <texture id="BoardHighlightTexture" file="../resources/green.png" length_s="1" length_t="1"/>
    <texture id="auxTexture" file="../resources/board.png" length_s="1" length_t="1" />
-   <texture id="auxHighlightTexture" file="../resources/leaves.png" length_s="1" length_t="1"/>
+   <texture id="auxHighlightTexture" file="../resources/green.png" length_s="1" length_t="1"/>
    <texture id="whiteTexture" file="../resources/white.png" length_s="1" length_t="1"/>
    <texture id="blackTexture" file="../resources/stripes.png" length_s="1" length_t="1"/>
     </textures>
