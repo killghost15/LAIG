@@ -16,7 +16,7 @@ function MyRing(scene, type) {
     }
     
 
-    this.torus = new MyTorus(this.scene, 20, 20);
+    this.torus = new MyTorus(this.scene,1, 1,20, 20);
 };
 
 MyRing.prototype = Object.create(CGFobject.prototype);

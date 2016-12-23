@@ -21,7 +21,7 @@ function MyGameBoard(scene, rows, cols) {
     this.animationStartCoords = null;
     this.animationFinalCoords = null;
 
-
+this.debug=0;
     //holds the ID of the tile that is being animated
     this.animatedStartTile = null;
     this.animatedFinalTile = null;
@@ -96,13 +96,14 @@ MyGameBoard.prototype.display = function() {
 };
 
 MyGameBoard.prototype.displayTile = function(tileID) {
+console.log(this.debug);
     if(this.rings[tileID] == null && this.disks[tileID] == null)
         return;
-
     if(this.animatedStartTile == tileID && this.animatedStartTile != null){
+        this.debug=1;
         this.animate();
     }
-
+    console.log("didn't animate");
     if(this.rings[tileID] != null){
         this.rings[tileID].display();
     }

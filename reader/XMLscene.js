@@ -49,7 +49,7 @@ XMLscene.prototype.init = function (application) {
 
     this.currentBoardState = [];
     this.currentBoard;
-    this.setUpdatePeriod(1000/60);
+    this.setUpdatePeriod(10);
 
 };
 //mudar para selecionar de acordo com a interface
@@ -106,8 +106,14 @@ XMLscene.prototype.Pause=function(){
     this.pause=!this.pause;
 };
 
+
+
 //Updates all nodes animations
 XMLscene.prototype.update=function(currTime){
+	 if (this.lastUpdate != 0) {
+        this.elapsedTime = currTime - this.lastUpdate;
+        this.elapsedTime /= 1000;
+    }
      if (this.graph.loadedOk) {
 
     if(this.pause!=true){

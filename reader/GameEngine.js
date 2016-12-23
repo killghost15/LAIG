@@ -328,7 +328,7 @@ GameEngine.prototype.getBoardCoordsByTileID = function(tileID) {
 };
 GameEngine.prototype.initialize = function(callback) {
     getPrologRequest("createBoard", function(data) {
-        //console.log("CALLED CREATEBOARD");
+        console.log("CALLED CREATEBOARD");
         board = data.target.response;
         callback(board);
     }, true);
@@ -339,7 +339,7 @@ GameEngine.prototype.placePiece = function(board, player, pawn, x, y, callback) 
 
     getPrologRequest("placePiece(" + board + "," + player + "," + pawn + "," + x + "," + y + ")", function(data) {
 
-        // console.log("CALLED PLACE PIECE");
+        console.log("CALLED PLACE PIECE");
         var b1 = data.target.response;
 
         callback(b1);
@@ -352,7 +352,7 @@ GameEngine.prototype.movePiece = function(board, player, pawn, xi, yi, xf, yf, c
 
     getPrologRequest("movePiece(" + board + "," + player + "," + pawn + "," + xi + "," + yi + "," + xf + "," + yf + ")", function(data) {
 
-        //  console.log("CALLED MOVE PIECE");
+        console.log("CALLED MOVE PIECE");
         var b1 = data.target.response;
 
         callback(b1);
